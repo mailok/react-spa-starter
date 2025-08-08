@@ -2,8 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router";
 import { Root } from "./root";
 import { DashboardPage } from "./dashboard/dashboard.page";
 import { About } from "./about/about.page";
-import Login from "./auth/login/login.page";
-import AuthLayout from "./auth/layout";
+import { AuthLayout } from "./auth/layout";
 import { DashboardBreadcrumb } from "./dashboard/breadcrum";
 import EmployeesPage from "./employees/employees.page";
 import { EmployeesBreadcrumb } from "./employees/breadcrum";
@@ -16,6 +15,8 @@ import CalendarPage from "./schedule/calendar/calendar.page";
 import { CalendarBreadcrumb } from "./schedule/calendar/breadcrum";
 import { ScheduleBreadcrumb } from "./schedule/breadcrum";
 import NotFound from "./not-found";
+import { SignupPage } from "./auth/signup/signup.page";
+import { LoginPage } from "./auth/login/login.page";
 
 export const router = createBrowserRouter([
   {
@@ -82,7 +83,11 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "login",
-        element: <Login />,
+        element: <LoginPage />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
       },
     ],
   },

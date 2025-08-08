@@ -1,22 +1,18 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Link } from "react-router"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Link } from "react-router";
 
-export function LoginForm({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+export function LoginForm() {
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
+    <div className="flex flex-col gap-6">
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
@@ -71,7 +67,10 @@ export function LoginForm({
               </div>
               <div className="text-center text-sm">
                 Don&apos;t have an account?{" "}
-                <Link to="/auth/signup" className="underline underline-offset-4">
+                <Link
+                  to="/auth/signup"
+                  className="underline underline-offset-4"
+                >
                   Sign up
                 </Link>
               </div>
@@ -80,9 +79,10 @@ export function LoginForm({
         </CardContent>
       </Card>
       <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our <Link to="/terms-of-service">Terms of Service</Link>{" "}
-        and <Link to="/privacy-policy">Privacy Policy</Link>.
+        By clicking continue, you agree to our{" "}
+        <Link to="/terms-of-service">Terms of Service</Link> and{" "}
+        <Link to="/privacy-policy">Privacy Policy</Link>.
       </div>
     </div>
-  )
+  );
 }
