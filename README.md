@@ -2,6 +2,10 @@
 
 A modern React SPA template with React Router v7, shadcn/ui, TypeScript, TanStack Query, and pre-built dashboard layouts for rapid development.
 
+## 🌐 Live Demo
+
+Check out the live demo: **[https://react-spa-starter.vercel.app/](https://react-spa-starter.vercel.app/)**
+
 ## ✨ Features
 
 - **React 19** - Latest React version with modern features
