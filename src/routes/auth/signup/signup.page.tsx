@@ -100,7 +100,7 @@ export function SignupPage() {
                 )}
               />
               <Button type="submit" className="mt-4 w-full">
-                Continue with Email
+                Create account
               </Button>
             </form>
           </Form>
