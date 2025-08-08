@@ -4,6 +4,7 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { Breadcrumbs } from './breadcrums';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { ModeToggle } from '@/components/theme-toggle';
 
 export function Root() {
   return (
@@ -34,6 +35,7 @@ export function Root() {
                   GitHub
                 </a>
               </Button>
+              <ModeToggle />
             </div>
           </div>
         </header>
