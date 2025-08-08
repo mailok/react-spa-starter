@@ -1,7 +1,8 @@
 {
-  "name": "rr-spa",
+  "name": "react-spa-starter",
+  "description": "Modern React SPA template with React Router v7, shadcn/ui, TypeScript, TanStack Query, and pre-built dashboard layouts for rapid development",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",

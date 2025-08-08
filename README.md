@@ -1,69 +1,91 @@
-# React + TypeScript + Vite
+# React SPA Starter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern React SPA template with React Router v7, shadcn/ui, TypeScript, TanStack Query, and pre-built dashboard layouts for rapid development.
 
-Currently, two official plugins are available:
+## ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** - Latest React version with modern features
+- **React Router v7** - File-based routing with nested layouts
+- **TypeScript** - Full type safety and better developer experience
+- **TanStack Query** - Powerful data fetching and state management
+- **shadcn/ui** - Beautiful and accessible UI components
+- **Tailwind CSS v4** - Modern utility-first CSS framework
+- **Vite** - Fast build tool and development server
 
-## Expanding the ESLint configuration
+## 🏗️ Pre-built Components
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Sidebar Navigation** - Collapsible sidebar with nested menus
+- **Authentication Layout** - Ready-to-use login/auth structure
+- **Dashboard Layout** - Professional dashboard with breadcrumbs
+- **Dark Mode** - Built-in theme switching support
+- **Responsive Design** - Mobile-first responsive layouts
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Quick Start
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+1. **Clone or use this template**
+   ```bash
+   git clone [your-repo-url]
+   cd react-spa-starter
+   ```
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   ```
+   http://localhost:5173
+   ```
+
+## 📁 Project Structure
+
+```
+src/
+├── components/          # Reusable UI components
+│   ├── app-sidebar/    # Sidebar navigation components
+│   └── ui/             # shadcn/ui components
+├── hooks/              # Custom React hooks
+├── lib/                # Utility functions and configs
+├── routes/             # Route components and layouts
+└── styles/             # Global styles and CSS
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 Available Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎨 Customization
+
+This template is designed to be easily customizable:
+
+1. **Update branding** - Change colors, logos, and titles
+2. **Add routes** - Create new pages in the `routes/` directory
+3. **Modify sidebar** - Edit navigation in `components/app-sidebar/`
+4. **Extend components** - Add more shadcn/ui components as needed
+
+## 📚 Tech Stack
+
+- [React](https://react.dev/) - UI library
+- [React Router](https://reactrouter.com/) - Routing
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [TanStack Query](https://tanstack.com/query) - Data fetching
+- [shadcn/ui](https://ui.shadcn.com/) - UI components
+- [Tailwind CSS](https://tailwindcss.com/) - Styling
+- [Vite](https://vitejs.dev/) - Build tool
+
+## 📄 License
+
+This template is open source and available under the [MIT License](LICENSE).
+
+---
+
+**Ready to build something amazing? Start coding! 🚀**
