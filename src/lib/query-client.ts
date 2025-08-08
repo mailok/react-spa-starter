@@ -1,6 +1,6 @@
-import { MutationCache, QueryClient } from "@tanstack/react-query";
+import { MutationCache, QueryClient } from '@tanstack/react-query';
 
-declare module "@tanstack/react-query" {
+declare module '@tanstack/react-query' {
   interface Register {
     mutationMeta: {
       invalidateQueries?: string[];

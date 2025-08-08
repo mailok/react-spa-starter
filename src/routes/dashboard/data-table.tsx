@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   closestCenter,
   DndContext,
@@ -9,15 +9,15 @@ import {
   useSensors,
   type DragEndEvent,
   type UniqueIdentifier,
-} from "@dnd-kit/core";
-import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import {
   arrayMove,
   SortableContext,
   useSortable,
   verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import {
   IconChevronDown,
   IconChevronLeft,
@@ -31,7 +31,7 @@ import {
   IconLoader,
   IconPlus,
   IconTrendingUp,
-} from "@tabler/icons-react";
+} from '@tabler/icons-react';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -46,21 +46,21 @@ import {
   type SortingState,
   useReactTable,
   type VisibilityState,
-} from "@tanstack/react-table";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
-import { toast } from "sonner";
-import { z } from "zod";
+} from '@tanstack/react-table';
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { useIsMobile } from '@/hooks/use-mobile';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Checkbox } from "@/components/ui/checkbox";
+} from '@/components/ui/chart';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Drawer,
   DrawerClose,
@@ -70,7 +70,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from "@/components/ui/drawer";
+} from '@/components/ui/drawer';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -78,17 +78,17 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import {
   Table,
   TableBody,
@@ -96,8 +96,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+} from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const schema = z.object({
@@ -132,18 +132,18 @@ function DragHandle({ id }: { id: number }) {
 
 const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
-    id: "drag",
+    id: 'drag',
     header: () => null,
     cell: ({ row }) => <DragHandle id={row.original.id} />,
   },
   {
-    id: "select",
+    id: 'select',
     header: ({ table }) => (
       <div className="flex items-center justify-center">
         <Checkbox
           checked={
             table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -163,16 +163,16 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "header",
-    header: "Header",
+    accessorKey: 'header',
+    header: 'Header',
     cell: ({ row }) => {
       return <TableCellViewer item={row.original} />;
     },
     enableHiding: false,
   },
   {
-    accessorKey: "type",
-    header: "Section Type",
+    accessorKey: 'type',
+    header: 'Section Type',
     cell: ({ row }) => (
       <div className="w-32">
         <Badge variant="outline" className="text-muted-foreground px-1.5">
@@ -182,11 +182,11 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: 'status',
+    header: 'Status',
     cell: ({ row }) => (
       <Badge variant="outline" className="text-muted-foreground px-1.5">
-        {row.original.status === "Done" ? (
+        {row.original.status === 'Done' ? (
           <IconCircleCheckFilled className="fill-green-500 dark:fill-green-400" />
         ) : (
           <IconLoader />
@@ -196,7 +196,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },
   {
-    accessorKey: "target",
+    accessorKey: 'target',
     header: () => <div className="w-full text-right">Target</div>,
     cell: ({ row }) => (
       <form
@@ -204,8 +204,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           e.preventDefault();
           toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
             loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
+            success: 'Done',
+            error: 'Error',
           });
         }}
       >
@@ -221,7 +221,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },
   {
-    accessorKey: "limit",
+    accessorKey: 'limit',
     header: () => <div className="w-full text-right">Limit</div>,
     cell: ({ row }) => (
       <form
@@ -229,8 +229,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           e.preventDefault();
           toast.promise(new Promise((resolve) => setTimeout(resolve, 1000)), {
             loading: `Saving ${row.original.header}`,
-            success: "Done",
-            error: "Error",
+            success: 'Done',
+            error: 'Error',
           });
         }}
       >
@@ -246,10 +246,10 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     ),
   },
   {
-    accessorKey: "reviewer",
-    header: "Reviewer",
+    accessorKey: 'reviewer',
+    header: 'Reviewer',
     cell: ({ row }) => {
-      const isAssigned = row.original.reviewer !== "Assign reviewer";
+      const isAssigned = row.original.reviewer !== 'Assign reviewer';
 
       if (isAssigned) {
         return row.original.reviewer;
@@ -280,7 +280,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     },
   },
   {
-    id: "actions",
+    id: 'actions',
     cell: () => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -312,7 +312,7 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 
   return (
     <TableRow
-      data-state={row.getIsSelected() && "selected"}
+      data-state={row.getIsSelected() && 'selected'}
       data-dragging={isDragging}
       ref={setNodeRef}
       className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
@@ -333,615 +333,615 @@ function DraggableRow({ row }: { row: Row<z.infer<typeof schema>> }) {
 const initalData: z.infer<typeof schema>[] = [
   {
     id: 1,
-    header: "Cover page",
-    type: "Cover page",
-    status: "In Process",
-    target: "18",
-    limit: "5",
-    reviewer: "Eddie Lake",
+    header: 'Cover page',
+    type: 'Cover page',
+    status: 'In Process',
+    target: '18',
+    limit: '5',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 2,
-    header: "Table of contents",
-    type: "Table of contents",
-    status: "Done",
-    target: "29",
-    limit: "24",
-    reviewer: "Eddie Lake",
+    header: 'Table of contents',
+    type: 'Table of contents',
+    status: 'Done',
+    target: '29',
+    limit: '24',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 3,
-    header: "Executive summary",
-    type: "Narrative",
-    status: "Done",
-    target: "10",
-    limit: "13",
-    reviewer: "Eddie Lake",
+    header: 'Executive summary',
+    type: 'Narrative',
+    status: 'Done',
+    target: '10',
+    limit: '13',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 4,
-    header: "Technical approach",
-    type: "Narrative",
-    status: "Done",
-    target: "27",
-    limit: "23",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Technical approach',
+    type: 'Narrative',
+    status: 'Done',
+    target: '27',
+    limit: '23',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 5,
-    header: "Design",
-    type: "Narrative",
-    status: "In Process",
-    target: "2",
-    limit: "16",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Design',
+    type: 'Narrative',
+    status: 'In Process',
+    target: '2',
+    limit: '16',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 6,
-    header: "Capabilities",
-    type: "Narrative",
-    status: "In Process",
-    target: "20",
-    limit: "8",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Capabilities',
+    type: 'Narrative',
+    status: 'In Process',
+    target: '20',
+    limit: '8',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 7,
-    header: "Integration with existing systems",
-    type: "Narrative",
-    status: "In Process",
-    target: "19",
-    limit: "21",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Integration with existing systems',
+    type: 'Narrative',
+    status: 'In Process',
+    target: '19',
+    limit: '21',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 8,
-    header: "Innovation and Advantages",
-    type: "Narrative",
-    status: "Done",
-    target: "25",
-    limit: "26",
-    reviewer: "Assign reviewer",
+    header: 'Innovation and Advantages',
+    type: 'Narrative',
+    status: 'Done',
+    target: '25',
+    limit: '26',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 9,
     header: "Overview of EMR's Innovative Solutions",
-    type: "Technical content",
-    status: "Done",
-    target: "7",
-    limit: "23",
-    reviewer: "Assign reviewer",
+    type: 'Technical content',
+    status: 'Done',
+    target: '7',
+    limit: '23',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 10,
-    header: "Advanced Algorithms and Machine Learning",
-    type: "Narrative",
-    status: "Done",
-    target: "30",
-    limit: "28",
-    reviewer: "Assign reviewer",
+    header: 'Advanced Algorithms and Machine Learning',
+    type: 'Narrative',
+    status: 'Done',
+    target: '30',
+    limit: '28',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 11,
-    header: "Adaptive Communication Protocols",
-    type: "Narrative",
-    status: "Done",
-    target: "9",
-    limit: "31",
-    reviewer: "Assign reviewer",
+    header: 'Adaptive Communication Protocols',
+    type: 'Narrative',
+    status: 'Done',
+    target: '9',
+    limit: '31',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 12,
-    header: "Advantages Over Current Technologies",
-    type: "Narrative",
-    status: "Done",
-    target: "12",
-    limit: "0",
-    reviewer: "Assign reviewer",
+    header: 'Advantages Over Current Technologies',
+    type: 'Narrative',
+    status: 'Done',
+    target: '12',
+    limit: '0',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 13,
-    header: "Past Performance",
-    type: "Narrative",
-    status: "Done",
-    target: "22",
-    limit: "33",
-    reviewer: "Assign reviewer",
+    header: 'Past Performance',
+    type: 'Narrative',
+    status: 'Done',
+    target: '22',
+    limit: '33',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 14,
-    header: "Customer Feedback and Satisfaction Levels",
-    type: "Narrative",
-    status: "Done",
-    target: "15",
-    limit: "34",
-    reviewer: "Assign reviewer",
+    header: 'Customer Feedback and Satisfaction Levels',
+    type: 'Narrative',
+    status: 'Done',
+    target: '15',
+    limit: '34',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 15,
-    header: "Implementation Challenges and Solutions",
-    type: "Narrative",
-    status: "Done",
-    target: "3",
-    limit: "35",
-    reviewer: "Assign reviewer",
+    header: 'Implementation Challenges and Solutions',
+    type: 'Narrative',
+    status: 'Done',
+    target: '3',
+    limit: '35',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 16,
-    header: "Security Measures and Data Protection Policies",
-    type: "Narrative",
-    status: "In Process",
-    target: "6",
-    limit: "36",
-    reviewer: "Assign reviewer",
+    header: 'Security Measures and Data Protection Policies',
+    type: 'Narrative',
+    status: 'In Process',
+    target: '6',
+    limit: '36',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 17,
-    header: "Scalability and Future Proofing",
-    type: "Narrative",
-    status: "Done",
-    target: "4",
-    limit: "37",
-    reviewer: "Assign reviewer",
+    header: 'Scalability and Future Proofing',
+    type: 'Narrative',
+    status: 'Done',
+    target: '4',
+    limit: '37',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 18,
-    header: "Cost-Benefit Analysis",
-    type: "Plain language",
-    status: "Done",
-    target: "14",
-    limit: "38",
-    reviewer: "Assign reviewer",
+    header: 'Cost-Benefit Analysis',
+    type: 'Plain language',
+    status: 'Done',
+    target: '14',
+    limit: '38',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 19,
-    header: "User Training and Onboarding Experience",
-    type: "Narrative",
-    status: "Done",
-    target: "17",
-    limit: "39",
-    reviewer: "Assign reviewer",
+    header: 'User Training and Onboarding Experience',
+    type: 'Narrative',
+    status: 'Done',
+    target: '17',
+    limit: '39',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 20,
-    header: "Future Development Roadmap",
-    type: "Narrative",
-    status: "Done",
-    target: "11",
-    limit: "40",
-    reviewer: "Assign reviewer",
+    header: 'Future Development Roadmap',
+    type: 'Narrative',
+    status: 'Done',
+    target: '11',
+    limit: '40',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 21,
-    header: "System Architecture Overview",
-    type: "Technical content",
-    status: "In Process",
-    target: "24",
-    limit: "18",
-    reviewer: "Maya Johnson",
+    header: 'System Architecture Overview',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '24',
+    limit: '18',
+    reviewer: 'Maya Johnson',
   },
   {
     id: 22,
-    header: "Risk Management Plan",
-    type: "Narrative",
-    status: "Done",
-    target: "15",
-    limit: "22",
-    reviewer: "Carlos Rodriguez",
+    header: 'Risk Management Plan',
+    type: 'Narrative',
+    status: 'Done',
+    target: '15',
+    limit: '22',
+    reviewer: 'Carlos Rodriguez',
   },
   {
     id: 23,
-    header: "Compliance Documentation",
-    type: "Legal",
-    status: "In Process",
-    target: "31",
-    limit: "27",
-    reviewer: "Sarah Chen",
+    header: 'Compliance Documentation',
+    type: 'Legal',
+    status: 'In Process',
+    target: '31',
+    limit: '27',
+    reviewer: 'Sarah Chen',
   },
   {
     id: 24,
-    header: "API Documentation",
-    type: "Technical content",
-    status: "Done",
-    target: "8",
-    limit: "12",
-    reviewer: "Raj Patel",
+    header: 'API Documentation',
+    type: 'Technical content',
+    status: 'Done',
+    target: '8',
+    limit: '12',
+    reviewer: 'Raj Patel',
   },
   {
     id: 25,
-    header: "User Interface Mockups",
-    type: "Visual",
-    status: "In Process",
-    target: "19",
-    limit: "25",
-    reviewer: "Leila Ahmadi",
+    header: 'User Interface Mockups',
+    type: 'Visual',
+    status: 'In Process',
+    target: '19',
+    limit: '25',
+    reviewer: 'Leila Ahmadi',
   },
   {
     id: 26,
-    header: "Database Schema",
-    type: "Technical content",
-    status: "Done",
-    target: "22",
-    limit: "20",
-    reviewer: "Thomas Wilson",
+    header: 'Database Schema',
+    type: 'Technical content',
+    status: 'Done',
+    target: '22',
+    limit: '20',
+    reviewer: 'Thomas Wilson',
   },
   {
     id: 27,
-    header: "Testing Methodology",
-    type: "Technical content",
-    status: "In Process",
-    target: "17",
-    limit: "14",
-    reviewer: "Assign reviewer",
+    header: 'Testing Methodology',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '17',
+    limit: '14',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 28,
-    header: "Deployment Strategy",
-    type: "Narrative",
-    status: "Done",
-    target: "26",
-    limit: "30",
-    reviewer: "Eddie Lake",
+    header: 'Deployment Strategy',
+    type: 'Narrative',
+    status: 'Done',
+    target: '26',
+    limit: '30',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 29,
-    header: "Budget Breakdown",
-    type: "Financial",
-    status: "In Process",
-    target: "13",
-    limit: "16",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Budget Breakdown',
+    type: 'Financial',
+    status: 'In Process',
+    target: '13',
+    limit: '16',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 30,
-    header: "Market Analysis",
-    type: "Research",
-    status: "Done",
-    target: "29",
-    limit: "32",
-    reviewer: "Sophia Martinez",
+    header: 'Market Analysis',
+    type: 'Research',
+    status: 'Done',
+    target: '29',
+    limit: '32',
+    reviewer: 'Sophia Martinez',
   },
   {
     id: 31,
-    header: "Competitor Comparison",
-    type: "Research",
-    status: "In Process",
-    target: "21",
-    limit: "19",
-    reviewer: "Assign reviewer",
+    header: 'Competitor Comparison',
+    type: 'Research',
+    status: 'In Process',
+    target: '21',
+    limit: '19',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 32,
-    header: "Maintenance Plan",
-    type: "Technical content",
-    status: "Done",
-    target: "16",
-    limit: "23",
-    reviewer: "Alex Thompson",
+    header: 'Maintenance Plan',
+    type: 'Technical content',
+    status: 'Done',
+    target: '16',
+    limit: '23',
+    reviewer: 'Alex Thompson',
   },
   {
     id: 33,
-    header: "User Personas",
-    type: "Research",
-    status: "In Process",
-    target: "27",
-    limit: "24",
-    reviewer: "Nina Patel",
+    header: 'User Personas',
+    type: 'Research',
+    status: 'In Process',
+    target: '27',
+    limit: '24',
+    reviewer: 'Nina Patel',
   },
   {
     id: 34,
-    header: "Accessibility Compliance",
-    type: "Legal",
-    status: "Done",
-    target: "18",
-    limit: "21",
-    reviewer: "Assign reviewer",
+    header: 'Accessibility Compliance',
+    type: 'Legal',
+    status: 'Done',
+    target: '18',
+    limit: '21',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 35,
-    header: "Performance Metrics",
-    type: "Technical content",
-    status: "In Process",
-    target: "23",
-    limit: "26",
-    reviewer: "David Kim",
+    header: 'Performance Metrics',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '23',
+    limit: '26',
+    reviewer: 'David Kim',
   },
   {
     id: 36,
-    header: "Disaster Recovery Plan",
-    type: "Technical content",
-    status: "Done",
-    target: "14",
-    limit: "17",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Disaster Recovery Plan',
+    type: 'Technical content',
+    status: 'Done',
+    target: '14',
+    limit: '17',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 37,
-    header: "Third-party Integrations",
-    type: "Technical content",
-    status: "In Process",
-    target: "25",
-    limit: "28",
-    reviewer: "Eddie Lake",
+    header: 'Third-party Integrations',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '25',
+    limit: '28',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 38,
-    header: "User Feedback Summary",
-    type: "Research",
-    status: "Done",
-    target: "20",
-    limit: "15",
-    reviewer: "Assign reviewer",
+    header: 'User Feedback Summary',
+    type: 'Research',
+    status: 'Done',
+    target: '20',
+    limit: '15',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 39,
-    header: "Localization Strategy",
-    type: "Narrative",
-    status: "In Process",
-    target: "12",
-    limit: "19",
-    reviewer: "Maria Garcia",
+    header: 'Localization Strategy',
+    type: 'Narrative',
+    status: 'In Process',
+    target: '12',
+    limit: '19',
+    reviewer: 'Maria Garcia',
   },
   {
     id: 40,
-    header: "Mobile Compatibility",
-    type: "Technical content",
-    status: "Done",
-    target: "28",
-    limit: "31",
-    reviewer: "James Wilson",
+    header: 'Mobile Compatibility',
+    type: 'Technical content',
+    status: 'Done',
+    target: '28',
+    limit: '31',
+    reviewer: 'James Wilson',
   },
   {
     id: 41,
-    header: "Data Migration Plan",
-    type: "Technical content",
-    status: "In Process",
-    target: "19",
-    limit: "22",
-    reviewer: "Assign reviewer",
+    header: 'Data Migration Plan',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '19',
+    limit: '22',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 42,
-    header: "Quality Assurance Protocols",
-    type: "Technical content",
-    status: "Done",
-    target: "30",
-    limit: "33",
-    reviewer: "Priya Singh",
+    header: 'Quality Assurance Protocols',
+    type: 'Technical content',
+    status: 'Done',
+    target: '30',
+    limit: '33',
+    reviewer: 'Priya Singh',
   },
   {
     id: 43,
-    header: "Stakeholder Analysis",
-    type: "Research",
-    status: "In Process",
-    target: "11",
-    limit: "14",
-    reviewer: "Eddie Lake",
+    header: 'Stakeholder Analysis',
+    type: 'Research',
+    status: 'In Process',
+    target: '11',
+    limit: '14',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 44,
-    header: "Environmental Impact Assessment",
-    type: "Research",
-    status: "Done",
-    target: "24",
-    limit: "27",
-    reviewer: "Assign reviewer",
+    header: 'Environmental Impact Assessment',
+    type: 'Research',
+    status: 'Done',
+    target: '24',
+    limit: '27',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 45,
-    header: "Intellectual Property Rights",
-    type: "Legal",
-    status: "In Process",
-    target: "17",
-    limit: "20",
-    reviewer: "Sarah Johnson",
+    header: 'Intellectual Property Rights',
+    type: 'Legal',
+    status: 'In Process',
+    target: '17',
+    limit: '20',
+    reviewer: 'Sarah Johnson',
   },
   {
     id: 46,
-    header: "Customer Support Framework",
-    type: "Narrative",
-    status: "Done",
-    target: "22",
-    limit: "25",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Customer Support Framework',
+    type: 'Narrative',
+    status: 'Done',
+    target: '22',
+    limit: '25',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 47,
-    header: "Version Control Strategy",
-    type: "Technical content",
-    status: "In Process",
-    target: "15",
-    limit: "18",
-    reviewer: "Assign reviewer",
+    header: 'Version Control Strategy',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '15',
+    limit: '18',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 48,
-    header: "Continuous Integration Pipeline",
-    type: "Technical content",
-    status: "Done",
-    target: "26",
-    limit: "29",
-    reviewer: "Michael Chen",
+    header: 'Continuous Integration Pipeline',
+    type: 'Technical content',
+    status: 'Done',
+    target: '26',
+    limit: '29',
+    reviewer: 'Michael Chen',
   },
   {
     id: 49,
-    header: "Regulatory Compliance",
-    type: "Legal",
-    status: "In Process",
-    target: "13",
-    limit: "16",
-    reviewer: "Assign reviewer",
+    header: 'Regulatory Compliance',
+    type: 'Legal',
+    status: 'In Process',
+    target: '13',
+    limit: '16',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 50,
-    header: "User Authentication System",
-    type: "Technical content",
-    status: "Done",
-    target: "28",
-    limit: "31",
-    reviewer: "Eddie Lake",
+    header: 'User Authentication System',
+    type: 'Technical content',
+    status: 'Done',
+    target: '28',
+    limit: '31',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 51,
-    header: "Data Analytics Framework",
-    type: "Technical content",
-    status: "In Process",
-    target: "21",
-    limit: "24",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Data Analytics Framework',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '21',
+    limit: '24',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 52,
-    header: "Cloud Infrastructure",
-    type: "Technical content",
-    status: "Done",
-    target: "16",
-    limit: "19",
-    reviewer: "Assign reviewer",
+    header: 'Cloud Infrastructure',
+    type: 'Technical content',
+    status: 'Done',
+    target: '16',
+    limit: '19',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 53,
-    header: "Network Security Measures",
-    type: "Technical content",
-    status: "In Process",
-    target: "29",
-    limit: "32",
-    reviewer: "Lisa Wong",
+    header: 'Network Security Measures',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '29',
+    limit: '32',
+    reviewer: 'Lisa Wong',
   },
   {
     id: 54,
-    header: "Project Timeline",
-    type: "Planning",
-    status: "Done",
-    target: "14",
-    limit: "17",
-    reviewer: "Eddie Lake",
+    header: 'Project Timeline',
+    type: 'Planning',
+    status: 'Done',
+    target: '14',
+    limit: '17',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 55,
-    header: "Resource Allocation",
-    type: "Planning",
-    status: "In Process",
-    target: "27",
-    limit: "30",
-    reviewer: "Assign reviewer",
+    header: 'Resource Allocation',
+    type: 'Planning',
+    status: 'In Process',
+    target: '27',
+    limit: '30',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 56,
-    header: "Team Structure and Roles",
-    type: "Planning",
-    status: "Done",
-    target: "20",
-    limit: "23",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Team Structure and Roles',
+    type: 'Planning',
+    status: 'Done',
+    target: '20',
+    limit: '23',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 57,
-    header: "Communication Protocols",
-    type: "Planning",
-    status: "In Process",
-    target: "15",
-    limit: "18",
-    reviewer: "Assign reviewer",
+    header: 'Communication Protocols',
+    type: 'Planning',
+    status: 'In Process',
+    target: '15',
+    limit: '18',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 58,
-    header: "Success Metrics",
-    type: "Planning",
-    status: "Done",
-    target: "30",
-    limit: "33",
-    reviewer: "Eddie Lake",
+    header: 'Success Metrics',
+    type: 'Planning',
+    status: 'Done',
+    target: '30',
+    limit: '33',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 59,
-    header: "Internationalization Support",
-    type: "Technical content",
-    status: "In Process",
-    target: "23",
-    limit: "26",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Internationalization Support',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '23',
+    limit: '26',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 60,
-    header: "Backup and Recovery Procedures",
-    type: "Technical content",
-    status: "Done",
-    target: "18",
-    limit: "21",
-    reviewer: "Assign reviewer",
+    header: 'Backup and Recovery Procedures',
+    type: 'Technical content',
+    status: 'Done',
+    target: '18',
+    limit: '21',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 61,
-    header: "Monitoring and Alerting System",
-    type: "Technical content",
-    status: "In Process",
-    target: "25",
-    limit: "28",
-    reviewer: "Daniel Park",
+    header: 'Monitoring and Alerting System',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '25',
+    limit: '28',
+    reviewer: 'Daniel Park',
   },
   {
     id: 62,
-    header: "Code Review Guidelines",
-    type: "Technical content",
-    status: "Done",
-    target: "12",
-    limit: "15",
-    reviewer: "Eddie Lake",
+    header: 'Code Review Guidelines',
+    type: 'Technical content',
+    status: 'Done',
+    target: '12',
+    limit: '15',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 63,
-    header: "Documentation Standards",
-    type: "Technical content",
-    status: "In Process",
-    target: "27",
-    limit: "30",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Documentation Standards',
+    type: 'Technical content',
+    status: 'In Process',
+    target: '27',
+    limit: '30',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 64,
-    header: "Release Management Process",
-    type: "Planning",
-    status: "Done",
-    target: "22",
-    limit: "25",
-    reviewer: "Assign reviewer",
+    header: 'Release Management Process',
+    type: 'Planning',
+    status: 'Done',
+    target: '22',
+    limit: '25',
+    reviewer: 'Assign reviewer',
   },
   {
     id: 65,
-    header: "Feature Prioritization Matrix",
-    type: "Planning",
-    status: "In Process",
-    target: "19",
-    limit: "22",
-    reviewer: "Emma Davis",
+    header: 'Feature Prioritization Matrix',
+    type: 'Planning',
+    status: 'In Process',
+    target: '19',
+    limit: '22',
+    reviewer: 'Emma Davis',
   },
   {
     id: 66,
-    header: "Technical Debt Assessment",
-    type: "Technical content",
-    status: "Done",
-    target: "24",
-    limit: "27",
-    reviewer: "Eddie Lake",
+    header: 'Technical Debt Assessment',
+    type: 'Technical content',
+    status: 'Done',
+    target: '24',
+    limit: '27',
+    reviewer: 'Eddie Lake',
   },
   {
     id: 67,
-    header: "Capacity Planning",
-    type: "Planning",
-    status: "In Process",
-    target: "21",
-    limit: "24",
-    reviewer: "Jamik Tashpulatov",
+    header: 'Capacity Planning',
+    type: 'Planning',
+    status: 'In Process',
+    target: '21',
+    limit: '24',
+    reviewer: 'Jamik Tashpulatov',
   },
   {
     id: 68,
-    header: "Service Level Agreements",
-    type: "Legal",
-    status: "Done",
-    target: "26",
-    limit: "29",
-    reviewer: "Assign reviewer",
+    header: 'Service Level Agreements',
+    type: 'Legal',
+    status: 'Done',
+    target: '26',
+    limit: '29',
+    reviewer: 'Assign reviewer',
   },
 ];
 
@@ -1055,7 +1055,7 @@ export function DataTable() {
                 .getAllColumns()
                 .filter(
                   (column) =>
-                    typeof column.accessorFn !== "undefined" &&
+                    typeof column.accessorFn !== 'undefined' &&
                     column.getCanHide()
                 )
                 .map((column) => {
@@ -1137,7 +1137,7 @@ export function DataTable() {
         </div>
         <div className="flex items-center justify-between px-4">
           <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
-            {table.getFilteredSelectedRowModel().rows.length} of{" "}
+            {table.getFilteredSelectedRowModel().rows.length} of{' '}
             {table.getFilteredRowModel().rows.length} row(s) selected.
           </div>
           <div className="flex w-full items-center gap-8 lg:w-fit">
@@ -1166,7 +1166,7 @@ export function DataTable() {
               </Select>
             </div>
             <div className="flex w-fit items-center justify-center text-sm font-medium">
-              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              Page {table.getState().pagination.pageIndex + 1} of{' '}
               {table.getPageCount()}
             </div>
             <div className="ml-auto flex items-center gap-2 lg:ml-0">
@@ -1233,22 +1233,22 @@ export function DataTable() {
 }
 
 const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
+  { month: 'January', desktop: 186, mobile: 80 },
+  { month: 'February', desktop: 305, mobile: 200 },
+  { month: 'March', desktop: 237, mobile: 120 },
+  { month: 'April', desktop: 73, mobile: 190 },
+  { month: 'May', desktop: 209, mobile: 130 },
+  { month: 'June', desktop: 214, mobile: 140 },
 ];
 
 const chartConfig = {
   desktop: {
-    label: "Desktop",
-    color: "var(--primary)",
+    label: 'Desktop',
+    color: 'var(--primary)',
   },
   mobile: {
-    label: "Mobile",
-    color: "var(--primary)",
+    label: 'Mobile',
+    color: 'var(--primary)',
   },
 } satisfies ChartConfig;
 
@@ -1256,7 +1256,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
   const isMobile = useIsMobile();
 
   return (
-    <Drawer direction={isMobile ? "bottom" : "right"}>
+    <Drawer direction={isMobile ? 'bottom' : 'right'}>
       <DrawerTrigger asChild>
         <Button variant="link" className="text-foreground w-fit px-0 text-left">
           {item.header}
@@ -1315,7 +1315,7 @@ function TableCellViewer({ item }: { item: z.infer<typeof schema> }) {
               <Separator />
               <div className="grid gap-2">
                 <div className="flex gap-2 leading-none font-medium">
-                  Trending up by 5.2% this month{" "}
+                  Trending up by 5.2% this month{' '}
                   <IconTrendingUp className="size-4" />
                 </div>
                 <div className="text-muted-foreground">

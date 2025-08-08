@@ -1,5 +1,10 @@
-import * as React from "react"
-import { AudioWaveform, ChevronsUpDown, Command, GalleryVerticalEnd } from "lucide-react"
+import * as React from 'react';
+import {
+  AudioWaveform,
+  ChevronsUpDown,
+  Command,
+  GalleryVerticalEnd,
+} from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -8,40 +13,40 @@ import {
   DropdownMenuLabel,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
 
 const data = {
   services: [
     {
-      name: "Skilled Nursing Services",
+      name: 'Skilled Nursing Services',
       logo: GalleryVerticalEnd,
-      plan: "SNF",
+      plan: 'SNF',
     },
     {
-      name: "Home Health Services",
+      name: 'Home Health Services',
       logo: AudioWaveform,
-      plan: "HHA",
+      plan: 'HHA',
     },
     {
-      name: "Personal Care Services",
+      name: 'Personal Care Services',
       logo: Command,
-      plan: "PCA",
+      plan: 'PCA',
     },
   ],
 };
 
 export function ServiceSwitcher() {
-  const { isMobile } = useSidebar()
-  const [activeService, setActiveService] = React.useState(data.services[2])
+  const { isMobile } = useSidebar();
+  const [activeService, setActiveService] = React.useState(data.services[2]);
 
   if (!activeService) {
-    return null
+    return null;
   }
 
   return (
@@ -57,7 +62,9 @@ export function ServiceSwitcher() {
                 <activeService.logo className="size-4" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{activeService.name}</span>
+                <span className="truncate font-medium">
+                  {activeService.name}
+                </span>
                 <span className="truncate text-xs">{activeService.plan}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
@@ -66,7 +73,7 @@ export function ServiceSwitcher() {
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="start"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">

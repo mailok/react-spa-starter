@@ -1,26 +1,26 @@
-import { createBrowserRouter, Navigate } from "react-router";
-import { Root } from "./root";
-import { DashboardPage } from "./dashboard/dashboard.page";
-import { About } from "./about/about.page";
-import { AuthLayout } from "./auth/layout";
-import { DashboardBreadcrumb } from "./dashboard/breadcrum";
-import EmployeesPage from "./employees/employees.page";
-import { EmployeesBreadcrumb } from "./employees/breadcrum";
-import { ClientsBreadcrumb } from "./clients/breadcrum";
-import ClientsPage from "./clients/clients.page";
-import BillingPage from "./billing/billing.page";
-import { BillingBreadcrumb } from "./billing/breadcrum";
-import SchedulePage from "./schedule/schedule.page";
-import CalendarPage from "./schedule/calendar/calendar.page";
-import { CalendarBreadcrumb } from "./schedule/calendar/breadcrum";
-import { ScheduleBreadcrumb } from "./schedule/breadcrum";
-import NotFound from "./not-found";
-import { SignupPage } from "./auth/signup/signup.page";
-import { LoginPage } from "./auth/login/login.page";
+import { createBrowserRouter, Navigate } from 'react-router';
+import { Root } from './root';
+import { DashboardPage } from './dashboard/dashboard.page';
+import { About } from './about/about.page';
+import { AuthLayout } from './auth/layout';
+import { DashboardBreadcrumb } from './dashboard/breadcrum';
+import EmployeesPage from './employees/employees.page';
+import { EmployeesBreadcrumb } from './employees/breadcrum';
+import { ClientsBreadcrumb } from './clients/breadcrum';
+import ClientsPage from './clients/clients.page';
+import BillingPage from './billing/billing.page';
+import { BillingBreadcrumb } from './billing/breadcrum';
+import SchedulePage from './schedule/schedule.page';
+import CalendarPage from './schedule/calendar/calendar.page';
+import { CalendarBreadcrumb } from './schedule/calendar/breadcrum';
+import { ScheduleBreadcrumb } from './schedule/breadcrum';
+import NotFound from './not-found';
+import { SignupPage } from './auth/signup/signup.page';
+import { LoginPage } from './auth/login/login.page';
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: <Root />,
     children: [
       {
@@ -31,28 +31,28 @@ export const router = createBrowserRouter([
         },
       },
       {
-        path: "employees",
+        path: 'employees',
         element: <EmployeesPage />,
         handle: {
           crumb: <EmployeesBreadcrumb />,
         },
       },
       {
-        path: "clients",
+        path: 'clients',
         element: <ClientsPage />,
         handle: {
           crumb: <ClientsBreadcrumb />,
         },
       },
       {
-        path: "billing",
+        path: 'billing',
         element: <BillingPage />,
         handle: {
           crumb: <BillingBreadcrumb />,
         },
       },
       {
-        path: "schedule",
+        path: 'schedule',
         element: <SchedulePage />,
         handle: {
           crumb: <ScheduleBreadcrumb />,
@@ -63,7 +63,7 @@ export const router = createBrowserRouter([
             element: <Navigate to="calendar" replace />,
           },
           {
-            path: "calendar",
+            path: 'calendar',
             element: <CalendarPage />,
             handle: {
               crumb: <CalendarBreadcrumb />,
@@ -74,11 +74,11 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "about",
+    path: 'about',
     element: <About />,
   },
   {
-    path: "auth",
+    path: 'auth',
     element: <AuthLayout />,
     children: [
       {
@@ -86,17 +86,17 @@ export const router = createBrowserRouter([
         element: <Navigate to="login" replace />,
       },
       {
-        path: "login",
+        path: 'login',
         element: <LoginPage />,
       },
       {
-        path: "signup",
+        path: 'signup',
         element: <SignupPage />,
       },
     ],
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFound />,
   },
 ]);

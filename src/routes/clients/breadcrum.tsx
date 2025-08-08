@@ -1,5 +1,5 @@
-import { BreadcrumbItem, BreadcrumbLink } from "@/components/ui/breadcrumb";
-import { Link } from "react-router";
+import { BreadcrumbItem, BreadcrumbLink } from '@/components/ui/breadcrumb';
+import { Link } from 'react-router';
 
 export function ClientsBreadcrumb() {
   return (

@@ -1,15 +1,15 @@
-import { useNavigate } from "react-router";
-import { Button } from "@/components/ui/button";
+import { useNavigate } from 'react-router';
+import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
   const navigate = useNavigate();
-  
+
   const handleGoBack = () => {
     window.history.back();
   };
 
   const handleGoHome = () => {
-    navigate("/");
+    navigate('/');
   };
 
   return (

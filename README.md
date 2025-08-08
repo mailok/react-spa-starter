@@ -27,17 +27,20 @@ Check out the live demo: **[https://react-spa-starter.vercel.app/](https://react
 ## 🚀 Quick Start
 
 1. **Clone or use this template**
+
    ```bash
    git clone [your-repo-url]
    cd react-spa-starter
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Start development server**
+
    ```bash
    npm run dev
    ```

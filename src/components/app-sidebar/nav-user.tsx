@@ -1,12 +1,12 @@
-import { LogOut } from "lucide-react";
+import { LogOut } from 'lucide-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import avatarImage from "@/assets/avatar.jpg";
+} from '@/components/ui/sidebar';
+import avatarImage from '@/assets/avatar.jpg';
 
 export function NavUser() {
   return (
@@ -24,7 +24,7 @@ export function NavUser() {
             <span className="truncate font-medium">Angel</span>
             <span className="truncate text-xs">anpodio.nunnez@gmail.com</span>
           </div>
-          <LogOut className="size-4 ml-auto mt-auto cursor-pointer" />
+          <LogOut className="mt-auto ml-auto size-4 cursor-pointer" />
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

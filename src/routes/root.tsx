@@ -1,9 +1,9 @@
-import { Outlet } from "react-router";
-import { AppSidebar } from "../components/app-sidebar";
-import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import { Breadcrumbs } from "./breadcrums";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { Outlet } from 'react-router';
+import { AppSidebar } from '../components/app-sidebar';
+import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
+import { Breadcrumbs } from './breadcrums';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
 export function Root() {
   return (

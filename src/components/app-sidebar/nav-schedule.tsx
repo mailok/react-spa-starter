@@ -1,10 +1,10 @@
-import { ChevronRight, Calendar, Clock } from "lucide-react"
+import { ChevronRight, Calendar, Clock } from 'lucide-react';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -15,8 +15,8 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
-import { NavLink } from "react-router";
+} from '@/components/ui/sidebar';
+import { NavLink } from 'react-router';
 
 export function NavSchedule() {
   return (

@@ -1,5 +1,5 @@
-import { User, Bell, Settings } from "lucide-react";
-import { NavLink } from "react-router";
+import { User, Bell, Settings } from 'lucide-react';
+import { NavLink } from 'react-router';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -7,7 +7,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarMenuBadge,
-} from "../ui/sidebar";
+} from '../ui/sidebar';
 
 export function NavSettings() {
   return (

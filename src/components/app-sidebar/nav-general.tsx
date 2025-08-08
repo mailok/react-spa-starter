@@ -1,12 +1,12 @@
-import { LayoutDashboard, PersonStanding, Users } from "lucide-react";
-import { NavLink } from "react-router";
+import { LayoutDashboard, PersonStanding, Users } from 'lucide-react';
+import { NavLink } from 'react-router';
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-} from "../ui/sidebar";
+} from '../ui/sidebar';
 
 export function NavGeneral() {
   return (

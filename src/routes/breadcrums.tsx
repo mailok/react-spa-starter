@@ -1,7 +1,10 @@
-import { Breadcrumb, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
-import { useBreadcrumbs } from "@/hooks/use-breadcrumbs";
-import React from "react";
-
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs';
+import React from 'react';
 
 export function Breadcrumbs() {
   const breadcrumbs = useBreadcrumbs();
