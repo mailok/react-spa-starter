@@ -1,0 +1,71 @@
+---
+alwaysApply: true
+---
+# Language Guidelines
+
+## Communication Rules
+
+### Chat Communication
+- All chat responses MUST be in Spanish
+- Explanations should be clear and concise in Spanish
+- Technical terms can be kept in English when necessary
+- Maintain a professional but friendly tone in Spanish
+
+### Code-Related Content
+All code-related content MUST be in English, including:
+- Variable names
+- Function names
+- Class names
+- File names
+- Comments and documentation
+- Git branch names
+- Commit messages
+- API endpoints
+- Configuration keys
+- Database field names
+- Log messages
+- Error messages in code
+- Test descriptions
+- TypeScript/JSDoc documentation
+
+## Examples
+
+### ✅ Correct Usage
+
+```typescript
+/**
+ * Fetches user data from the database
+ * @param userId - The unique identifier of the user
+ * @returns User object with their information
+ */
+async function fetchUserData(userId: string): Promise<User> {
+  const user = await userRepository.findById(userId);
+  if (!user) {
+    throw new Error('User not found');
+  }
+  return user;
+}
+```
+
+### ❌ Incorrect Usage
+
+```typescript
+/**
+ * Obtiene datos del usuario de la base de datos
+ * @param idUsuario - El identificador único del usuario
+ * @returns Objeto usuario con su información
+ */
+async function obtenerDatosUsuario(idUsuario: string): Promise<Usuario> {
+  const usuario = await repositorioUsuarios.buscarPorId(idUsuario);
+  if (!usuario) {
+    throw new Error('Usuario no encontrado');
+  }
+  return usuario;
+}
+```
+
+## Important Notes
+1. This rule is mandatory and should be followed consistently
+2. Exceptions must be explicitly requested and documented
+3. When in doubt, default to English for any code-related content
+4. Technical discussions in chat can use English terms when needed for clarity 

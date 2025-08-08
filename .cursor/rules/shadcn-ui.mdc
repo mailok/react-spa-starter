@@ -1,0 +1,361 @@
+---
+description: "shadcn/ui and Tailwind CSS development guidelines"
+alwaysApply: true
+---
+
+# shadcn/ui and Tailwind CSS Guidelines
+
+You are an expert in shadcn/ui, Radix UI, Tailwind CSS, and React component development.
+
+## shadcn/ui Best Practices
+
+### Component Structure
+- Use shadcn/ui components as base, extend with custom props
+- Keep components composable and reusable
+- Use forwardRef for proper ref handling
+- Implement proper TypeScript interfaces
+
+```typescript
+// ✅ Good - Extending shadcn/ui component
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface CustomButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link";
+  size?: "default" | "sm" | "lg" | "icon";
+  isLoading?: boolean;
+}
+
+const CustomButton = React.forwardRef<HTMLButtonElement, CustomButtonProps>(
+  ({ className, variant, size, isLoading, children, ...props }, ref) => {
+    return (
+      <Button
+        className={cn(className)}
+        variant={variant}
+        size={size}
+        ref={ref}
+        disabled={isLoading}
+        {...props}
+      >
+        {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+        {children}
+      </Button>
+    );
+  }
+);
+```
+
+### Form Components
+- Use shadcn/ui Form components with react-hook-form
+- Implement proper validation with Zod
+- Handle form states appropriately
+- Use shadcn/ui form primitives
+
+```typescript
+// ✅ Good - Form with shadcn/ui
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+
+const formSchema = z.object({
+  username: z.string().min(2, "Username must be at least 2 characters."),
+  email: z.string().email("Invalid email address."),
+});
+
+export function ProfileForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+    },
+  });
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Handle form submission
+    console.log(values);
+  }
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter username" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <Button type="submit">Submit</Button>
+      </form>
+    </Form>
+  );
+}
+```
+
+### Dialog and Modal Patterns
+- Use shadcn/ui Dialog components
+- Implement proper close handlers
+- Handle state management correctly
+- Use appropriate trigger patterns
+
+```typescript
+// ✅ Good - Dialog component
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+
+interface ConfirmDialogProps {
+  title: string;
+  description: string;
+  onConfirm: () => void;
+  children: React.ReactNode;
+}
+
+export function ConfirmDialog({ title, description, onConfirm, children }: ConfirmDialogProps) {
+  const [open, setOpen] = React.useState(false);
+
+  const handleConfirm = () => {
+    onConfirm();
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
+        <div className="flex justify-end space-x-2">
+          <Button variant="outline" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm}>
+            Confirm
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+## Tailwind CSS Best Practices
+
+### Class Organization
+- Use the `cn()` utility for conditional classes
+- Group related classes together
+- Use semantic class names
+- Implement responsive design patterns
+
+```typescript
+// ✅ Good - Tailwind class organization
+import { cn } from "@/lib/utils";
+
+interface CardProps {
+  variant?: "default" | "outline";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+}
+
+export function Card({ variant = "default", size = "md", className, ...props }: CardProps) {
+  return (
+    <div
+      className={cn(
+        // Base styles
+        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        // Variants
+        {
+          "border-input": variant === "outline",
+          "border-transparent": variant === "default",
+        },
+        // Sizes
+        {
+          "p-4": size === "sm",
+          "p-6": size === "md",
+          "p-8": size === "lg",
+        },
+        // Custom className
+        className
+      )}
+      {...props}
+    />
+  );
+}
+```
+
+### Responsive Design
+- Use mobile-first approach
+- Implement breakpoints consistently
+- Use responsive utilities appropriately
+
+```typescript
+// ✅ Good - Responsive design
+export function ResponsiveGrid({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      {children}
+    </div>
+  );
+}
+```
+
+### Dark Mode Support
+- Use CSS variables for theming
+- Implement proper dark mode classes
+- Test both light and dark modes
+
+```typescript
+// ✅ Good - Dark mode support
+export function ThemeToggle() {
+  const [theme, setTheme] = React.useState<"light" | "dark">("light");
+
+  React.useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove("light", "dark");
+    root.classList.add(theme);
+  }, [theme]);
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+    >
+      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
+    </Button>
+  );
+}
+```
+
+## Component Patterns
+
+### Compound Components
+- Use compound patterns for complex components
+- Implement context for state sharing
+- Maintain proper component composition
+
+```typescript
+// ✅ Good - Compound component pattern
+interface CardContextValue {
+  variant: "default" | "outline";
+}
+
+const CardContext = React.createContext<CardContextValue | undefined>(undefined);
+
+export function Card({ variant = "default", className, ...props }: CardProps) {
+  return (
+    <CardContext.Provider value={{ variant }}>
+      <div
+        className={cn(
+          "rounded-lg border bg-card text-card-foreground shadow-sm",
+          className
+        )}
+        {...props}
+      />
+    </CardContext.Provider>
+  );
+}
+
+export function CardHeader({ className, ...props }: CardHeaderProps) {
+  return (
+    <div
+      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      {...props}
+    />
+  );
+}
+
+export function CardTitle({ className, ...props }: CardTitleProps) {
+  return (
+    <h3
+      className={cn("text-2xl font-semibold leading-none tracking-tight", className)}
+      {...props}
+    />
+  );
+}
+```
+
+### Loading States
+- Implement proper loading states
+- Use shadcn/ui Skeleton components
+- Handle loading and error states
+
+```typescript
+// ✅ Good - Loading states
+import { Skeleton } from "@/components/ui/skeleton";
+
+export function CardSkeleton() {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-4 w-[250px]" />
+      <Skeleton className="h-4 w-[200px]" />
+      <Skeleton className="h-4 w-[150px]" />
+    </div>
+  );
+}
+
+export function DataCard({ data, isLoading, error }: DataCardProps) {
+  if (isLoading) {
+    return <CardSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <Card>
+        <CardContent className="pt-6">
+          <p className="text-destructive">Error loading data</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  return (
+    <Card>
+      <CardContent className="pt-6">
+        {/* Render data */}
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Key Conventions
+
+### File Organization
+- Keep UI components in `components/ui/`
+- Create custom components in `components/`
+- Use index files for easier imports
+- Implement proper TypeScript interfaces
+
+### Styling Guidelines
+- Use Tailwind utility classes over custom CSS
+- Implement consistent spacing and typography
+- Use semantic color tokens
+- Follow accessibility guidelines
+- Test responsive behavior across devices
+
+### Performance
+- Use React.memo for expensive components
+- Implement proper key props for lists
+- Optimize image loading with next/image
+- Use dynamic imports for heavy components
+
+Follow shadcn/ui documentation and Tailwind CSS best practices for optimal component development.

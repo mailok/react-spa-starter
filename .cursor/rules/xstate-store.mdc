@@ -1,0 +1,442 @@
+---
+description: XState Store (@xstate/store) v3.x state management guidelines and best practices
+alwaysApply: true
+---
+
+# XState Store Guidelines
+
+You are an expert in XState Store (@xstate/store) v3.x, a lightweight state management library for JavaScript/TypeScript applications.
+
+## Core Concepts
+
+XState Store is designed for simple state management using **events** to update store data. It's comparable to Zustand, Redux, and Pinia but with a focus on event-driven updates. For complex state logic, use XState; for simple state management, XState Store is perfect.
+
+### Requirements
+- TypeScript version 5.4 or above
+- Package: `@xstate/store`
+
+## Creating a Store
+
+### Basic Store Structure
+```typescript
+import { createStore } from '@xstate/store';
+
+const store = createStore({
+  // Initial context (state)
+  context: { count: 0, name: 'David' },
+  
+  // Event transitions
+  on: {
+    inc: (context) => ({
+      ...context,
+      count: context.count + 1,
+    }),
+    add: (context, event: { num: number }) => ({
+      ...context,
+      count: context.count + event.num,
+    }),
+    changeName: (context, event: { newName: string }) => ({
+      ...context,
+      name: event.newName,
+    }),
+  },
+});
+```
+
+### Key Rules
+- **Always return complete context**: Include all properties using spread operator
+- **Event-driven updates**: All state changes happen through events
+- **Immutable updates**: Return new objects, don't mutate existing state
+
+## Core API Methods
+
+### Getting State
+```typescript
+// Get current snapshot
+const snapshot = store.getSnapshot();
+console.log(snapshot.context); // { count: 0, name: 'David' }
+
+// Get initial snapshot
+const initialSnapshot = store.getInitialSnapshot();
+```
+
+### Sending Events
+```typescript
+// Traditional event sending
+store.send({ type: 'inc' });
+store.send({ type: 'add', num: 5 });
+
+// Fluent trigger API (recommended)
+store.trigger.inc();
+store.trigger.add({ num: 5 });
+store.trigger.changeName({ newName: 'Jenny' });
+```
+
+### Subscribing to Changes
+```typescript
+const unsubscribe = store.subscribe((snapshot) => {
+  console.log('State changed:', snapshot.context);
+});
+
+// Don't forget to unsubscribe when done
+unsubscribe();
+```
+
+## Advanced Features
+
+### Effects and Side Effects
+```typescript
+const store = createStore({
+  context: { count: 0 },
+  on: {
+    incrementDelayed: (context, event, enqueue) => {
+      // Enqueue async effects
+      enqueue.effect(async () => {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        store.send({ type: 'increment' });
+      });
+
+      return context; // Return unchanged context
+    },
+    increment: (context) => ({
+      ...context,
+      count: context.count + 1,
+    }),
+  },
+});
+```
+
+### Emitting Events
+```typescript
+const store = createStore({
+  context: { count: 0 },
+  
+  // Define emittable events
+  emits: {
+    increased: (payload: { by: number }) => {
+      // Optional side effects
+      console.log(`Count increased by ${payload.by}`);
+    },
+  },
+  
+  on: {
+    inc: (context, event: { by: number }, enqueue) => {
+      // Emit event
+      enqueue.emit.increased({ by: event.by });
+      
+      return {
+        ...context,
+        count: context.count + event.by,
+      };
+    },
+  },
+});
+
+// Listen for emitted events
+store.on('increased', (event) => {
+  console.log(`Count increased by ${event.by}`);
+});
+```
+
+### Pure Transitions
+```typescript
+// Test transitions without changing store state
+const snapshot = store.getSnapshot();
+const [nextState, effects] = store.transition(snapshot, {
+  type: 'inc',
+  by: 1,
+});
+
+console.log(nextState.context); // New state
+console.log(effects); // Array of effects
+// Store state remains unchanged
+```
+
+## Selectors
+
+Selectors provide efficient way to select and subscribe to specific parts of state:
+
+```typescript
+const store = createStore({
+  context: {
+    position: { x: 0, y: 0 },
+    name: 'John',
+    age: 30,
+  },
+  on: {
+    positionUpdated: (context, event: { position: { x: number; y: number } }) => ({
+      ...context,
+      position: event.position,
+    }),
+  },
+});
+
+// Create selector
+const positionSelector = store.select((context) => context.position);
+
+// Get current value
+console.log(positionSelector.get()); // { x: 0, y: 0 }
+
+// Subscribe to changes (only when position changes)
+positionSelector.subscribe((position) => {
+  console.log('Position changed:', position);
+});
+
+// Custom equality function
+const nameSelector = store.select((context) => context.name);
+nameSelector.subscribe(
+  (name) => console.log('Name:', name),
+  (a, b) => a.toLowerCase() === b.toLowerCase() // Custom equality
+);
+```
+
+## Atoms
+
+Atoms are reactive values that can be derived from stores:
+
+```typescript
+import { atom } from '@xstate/store';
+
+// Basic atom
+const countAtom = atom({
+  get: () => store.getSnapshot().context.count,
+  set: (value: number) => store.send({ type: 'setCount', value }),
+});
+
+// Derived atom
+const doubleCountAtom = atom({
+  get: () => countAtom.get() * 2,
+});
+
+// Async atom
+const userAtom = atom({
+  get: async () => {
+    const response = await fetch('/api/user');
+    return response.json();
+  },
+});
+
+// Usage
+console.log(countAtom.get()); // Get current value
+countAtom.set(10); // Set new value
+countAtom.subscribe((value) => console.log('Count:', value)); // Subscribe
+```
+
+## React Integration
+
+### Using with React
+```typescript
+import { useSelector } from '@xstate/store/react';
+
+function Counter() {
+  const count = useSelector(store, (state) => state.context.count);
+  const name = useSelector(store, (state) => state.context.name);
+  
+  return (
+    <div>
+      <p>{name}: {count}</p>
+      <button onClick={() => store.trigger.inc()}>+</button>
+      <button onClick={() => store.trigger.add({ num: 5 })}>+5</button>
+    </div>
+  );
+}
+```
+
+### Local Stores with useStore
+```typescript
+import { useStore } from '@xstate/store/react';
+
+function Counter({ initialCount = 0 }) {
+  const store = useStore({
+    context: { count: initialCount },
+    on: {
+      inc: (context) => ({ ...context, count: context.count + 1 }),
+      dec: (context) => ({ ...context, count: context.count - 1 }),
+    },
+  });
+  
+  const count = useSelector(store, (state) => state.context.count);
+  
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => store.trigger.inc()}>+</button>
+      <button onClick={() => store.trigger.dec()}>-</button>
+    </div>
+  );
+}
+```
+
+### Listening to Emitted Events
+```typescript
+import { useSelector } from '@xstate/store/react';
+
+function Component() {
+  const store = useStore({
+    context: { count: 0 },
+    emits: {
+      incremented: (payload: { by: number }) => {},
+    },
+    on: {
+      inc: (context, event: { by: number }, enqueue) => {
+        enqueue.emit.incremented({ by: event.by });
+        return { ...context, count: context.count + event.by };
+      },
+    },
+  });
+  
+  // Listen to emitted events
+  useEffect(() => {
+    const unsubscribe = store.on('incremented', (event) => {
+      console.log(`Count increased by ${event.by}`);
+    });
+    
+    return unsubscribe;
+  }, [store]);
+  
+  return <div>{/* Component JSX */}</div>;
+}
+```
+
+## Integration with XState
+
+### Converting Store to XState Actor
+```typescript
+import { fromStore } from '@xstate/store';
+import { createActor } from 'xstate';
+
+// Create store logic
+const storeLogic = fromStore({
+  context: { count: 0 },
+  on: {
+    inc: (context) => ({ ...context, count: context.count + 1 }),
+  },
+});
+
+// Create actor from store logic
+const storeActor = createActor(storeLogic);
+storeActor.subscribe((snapshot) => console.log(snapshot));
+storeActor.start();
+```
+
+### With Input
+```typescript
+const storeLogic = fromStore({
+  context: (initialCount: number) => ({ count: initialCount }),
+  on: {
+    inc: (context) => ({ ...context, count: context.count + 1 }),
+  },
+});
+
+const actor = createActor(storeLogic, { input: 42 });
+```
+
+## Best Practices
+
+### State Management
+- Use stores for application-wide state
+- Use local stores (`useStore`) for component-specific state
+- Keep context flat and simple
+- Use selectors to prevent unnecessary re-renders
+
+### Event Design
+- Use descriptive event names
+- Include necessary data in event payload
+- Prefer specific events over generic ones
+- Use past tense for event names (e.g., 'userLoggedIn', 'itemAdded')
+
+### Performance
+- Use selectors to subscribe to specific parts of state
+- Implement custom equality functions for complex objects
+- Use atoms for derived state
+- Avoid large objects in context
+
+### TypeScript
+- Define strong types for context and events
+- Use interfaces for complex event payloads
+- Leverage TypeScript's type inference
+- Type selectors properly
+
+### Testing
+- Use `store.transition()` for pure testing
+- Test event handlers in isolation
+- Mock effects and emissions
+- Use `getInitialSnapshot()` for testing initial state
+
+## Common Patterns
+
+### Loading States
+```typescript
+const store = createStore({
+  context: {
+    data: null,
+    loading: false,
+    error: null,
+  },
+  on: {
+    fetchStart: (context) => ({
+      ...context,
+      loading: true,
+      error: null,
+    }),
+    fetchSuccess: (context, event: { data: any }) => ({
+      ...context,
+      data: event.data,
+      loading: false,
+      error: null,
+    }),
+    fetchError: (context, event: { error: string }) => ({
+      ...context,
+      loading: false,
+      error: event.error,
+    }),
+  },
+});
+```
+
+### Form Management
+```typescript
+const formStore = createStore({
+  context: {
+    values: {},
+    errors: {},
+    touched: {},
+    submitting: false,
+  },
+  on: {
+    fieldChanged: (context, event: { field: string; value: any }) => ({
+      ...context,
+      values: { ...context.values, [event.field]: event.value },
+      touched: { ...context.touched, [event.field]: true },
+    }),
+    setError: (context, event: { field: string; error: string }) => ({
+      ...context,
+      errors: { ...context.errors, [event.field]: event.error },
+    }),
+    submitStart: (context) => ({
+      ...context,
+      submitting: true,
+    }),
+    submitEnd: (context) => ({
+      ...context,
+      submitting: false,
+    }),
+  },
+});
+```
+
+## Migration and Comparison
+
+### From Zustand
+- Replace `create()` with `createStore()`
+- Move actions to `on` object as event handlers
+- Use `store.trigger` instead of direct function calls
+- Context replaces state
+
+### From Redux
+- Replace reducers with event handlers in `on`
+- Actions become events sent to store
+- No need for action creators
+- Simpler, more direct API
+
+Remember: XState Store is event-driven. All state changes should happen through events, making state transitions explicit and traceable.
