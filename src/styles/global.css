@@ -160,3 +160,8 @@
     --sidebar-ring: oklch(0.439 0 0);
   }
 }
+
+/* Custom sidebar width override */
+[data-slot="sidebar-wrapper"] {
+  --sidebar-width: 18rem !important;
+}

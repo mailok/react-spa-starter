@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 
 export function UnderConstruction() {
   return (
-    <section className="flex size-full flex-col items-center justify-center p-4 dark:bg-gray-900">
+    <section className="flex size-full flex-col items-center justify-center p-4">
       <div className="flex flex-col items-center space-y-4">
         <img
           src={underConstructionImage}
