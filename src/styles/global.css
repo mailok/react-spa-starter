@@ -165,3 +165,14 @@
 [data-slot="sidebar-wrapper"] {
   --sidebar-width: 18rem !important;
 }
+
+/*
+  Reference: Component variables used but not defined in this file or in themes.ts
+  These are kept here as comments for quick cross-file traceability.
+
+  --radix-select-trigger-height  - used in src/components/ui/select.tsx
+  --radix-select-trigger-width   - used in src/components/ui/select.tsx
+  --sidebar-width-icon           - used in src/components/ui/sidebar.tsx
+  --color-desktop                - used in src/routes/dashboard/chart-area-interactive.tsx, src/routes/dashboard/data-table.tsx
+  --color-mobile                 - used in src/routes/dashboard/chart-area-interactive.tsx, src/routes/dashboard/data-table.tsx
+*/
