@@ -138,6 +138,16 @@ const chartConfig = {
 export function ChartAreaInteractive() {
   const isMobile = useIsMobile();
   const [timeRange, setTimeRange] = React.useState('90d');
+  const baseDataRef = React.useRef(chartData);
+  const [liveData, setLiveData] = React.useState(() =>
+    chartData.map((d) => ({ ...d }))
+  );
+  const tickRef = React.useRef(0);
+
+  // Clamp helper to keep values in a sane range relative to the base
+  const clamp = (value: number, min: number, max: number) => {
+    return Math.min(Math.max(value, min), max);
+  };
 
   React.useEffect(() => {
     if (isMobile) {
@@ -145,7 +155,39 @@ export function ChartAreaInteractive() {
     }
   }, [isMobile]);
 
-  const filteredData = chartData.filter((item) => {
+  // Periodically update values around the baseline with visible but smooth changes
+  React.useEffect(() => {
+    const interval = window.setInterval(() => {
+      tickRef.current += 1;
+      setLiveData(() =>
+        baseDataRef.current.map((base, index) => {
+          const t = (tickRef.current + index) / 2.2;
+          const sine = Math.sin(t);
+          // Stronger amplitude depending on selected time range
+          const amplitude =
+            timeRange === '7d' ? 0.32 : timeRange === '30d' ? 0.24 : 0.18; // ±32/24/18%
+          const jitter = (Math.random() - 0.5) * 0.08; // ±8%
+
+          const nextDesktop = clamp(
+            Math.round(base.desktop * (1 + amplitude * sine + jitter)),
+            Math.max(0, Math.round(base.desktop * (1 - amplitude * 1.3))),
+            Math.round(base.desktop * (1 + amplitude * 1.3))
+          );
+          const nextMobile = clamp(
+            Math.round(base.mobile * (1 + amplitude * sine + jitter)),
+            Math.max(0, Math.round(base.mobile * (1 - amplitude * 1.3))),
+            Math.round(base.mobile * (1 + amplitude * 1.3))
+          );
+
+          return { ...base, desktop: nextDesktop, mobile: nextMobile };
+        })
+      );
+    }, 1200);
+
+    return () => window.clearInterval(interval);
+  }, [timeRange]);
+
+  const filteredData = liveData.filter((item) => {
     const date = new Date(item.date);
     const referenceDate = new Date('2024-06-30');
     let daysToSubtract = 90;
