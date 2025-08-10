@@ -143,6 +143,11 @@
   --text-sm: 0.95rem;
 }
 
+/* [data-slot="sidebar-menu-button"][data-active="true"] {
+  --font-weight-medium: 600;
+  --sidebar-accent: oklch(0.9567 0 0);
+}
+ */
 /*
   Reference: Component variables used but not defined in this file or in themes.ts
   These are kept here as comments for quick cross-file traceability.

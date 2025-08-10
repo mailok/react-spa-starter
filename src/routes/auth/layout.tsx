@@ -1,6 +1,5 @@
 import { GalleryVerticalEnd } from 'lucide-react';
 import { Link, Outlet } from 'react-router';
-import { ColorThemeToggle } from '@/components/themes/color-theme-toggle';
 import { ModeToggle } from '@/components/theme-toggle';
 
 export function AuthLayout() {
@@ -8,7 +7,6 @@ export function AuthLayout() {
     <div className="bg-muted flex min-h-svh w-full flex-col items-center justify-center gap-6 p-6 md:p-10">
       {/* Theme toggles in top-right corner */}
       <div className="absolute top-4 right-4 flex items-center gap-2">
-        <ColorThemeToggle />
         <ModeToggle />
       </div>
 

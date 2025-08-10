@@ -5,7 +5,6 @@ import { Breadcrumbs } from './breadcrums';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { ModeToggle } from '@/components/theme-toggle';
-import { ColorThemeToggle } from '@/components/themes/color-theme-toggle';
 
 export function Root() {
   return (
@@ -36,7 +35,6 @@ export function Root() {
                   GitHub
                 </a>
               </Button>
-              <ColorThemeToggle />
               <ModeToggle />
             </div>
           </div>
