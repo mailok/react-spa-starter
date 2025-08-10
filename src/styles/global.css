@@ -162,8 +162,9 @@
 }
 
 /* Custom sidebar width override */
-[data-slot="sidebar-wrapper"] {
-  --sidebar-width: 18rem !important;
+[data-slot="sidebar"] {
+  --sidebar-width: 17rem;
+  --text-sm: 0.90rem;
 }
 
 /*
