@@ -138,7 +138,7 @@
 /* Custom sidebar width override */
 [data-slot="sidebar"] {
   --sidebar-width: 18rem;
-  --text-sm: 0.95rem;
+  /* --text-sm: 0.90rem; */
 }
 
 /* [data-slot="sidebar-menu-button"][data-active="true"] {

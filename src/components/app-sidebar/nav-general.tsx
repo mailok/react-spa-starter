@@ -10,7 +10,7 @@ import {
 
 export function NavGeneral() {
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup>
       <SidebarGroupLabel>General</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem key="dashboard">

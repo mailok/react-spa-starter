@@ -11,7 +11,7 @@ import {
 
 export function NavSettings() {
   return (
-    <SidebarGroup className="group-data-[collapsible=icon]:hidden">
+    <SidebarGroup>
       <SidebarGroupLabel>Settings</SidebarGroupLabel>
       <SidebarMenu>
         <SidebarMenuItem key="account">
