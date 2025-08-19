@@ -1,4 +1,4 @@
-import { LayoutDashboard, PersonStanding, Users } from 'lucide-react';
+import { LayoutDashboard, PersonStanding, ListTodo, Users } from 'lucide-react';
 import { NavLink } from 'react-router';
 import {
   SidebarGroup,
@@ -44,6 +44,18 @@ export function NavGeneral() {
                 <span>
                   <PersonStanding />
                   Clients
+                </span>
+              </SidebarMenuButton>
+            )}
+          </NavLink>
+        </SidebarMenuItem>
+        <SidebarMenuItem key="tasks">
+          <NavLink to="/tasks">
+            {({ isActive }) => (
+              <SidebarMenuButton isActive={isActive} asChild>
+                <span>
+                  <ListTodo />
+                  Tasks
                 </span>
               </SidebarMenuButton>
             )}

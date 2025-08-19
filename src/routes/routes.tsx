@@ -17,6 +17,8 @@ import { ScheduleBreadcrumb } from './schedule/breadcrum';
 import NotFound from './not-found';
 import { SignupPage } from './auth/signup/signup.page';
 import { LoginPage } from './auth/login/login.page';
+import { TasksBreadcrumb } from './tasks/breadcrum';
+import TasksPage from './tasks/tasks.page';
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +44,13 @@ export const router = createBrowserRouter([
         element: <ClientsPage />,
         handle: {
           crumb: <ClientsBreadcrumb />,
+        },
+      },
+      {
+        path: 'tasks',
+        element: <TasksPage />,
+        handle: {
+          crumb: <TasksBreadcrumb />,
         },
       },
       {
