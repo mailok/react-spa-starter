@@ -53,6 +53,24 @@ export async function fetchList(filter: FetchClientsListFilter) {
   };
 }
 
+export type ClientSummary = {
+  active: number;
+  inactive: number;
+  pending: number;
+  total: number;
+};
+
+export async function fetchSummary() {
+  await sleep();
+  return {
+    active: mockClients.filter((client) => client.status === 'active').length,
+    inactive: mockClients.filter((client) => client.status === 'inactive')
+      .length,
+    pending: mockClients.filter((client) => client.status === 'pending').length,
+    total: mockClients.length,
+  };
+}
+
 
 
 // --- MOCK DATA ---
