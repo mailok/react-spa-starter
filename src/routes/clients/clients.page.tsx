@@ -1,24 +1,14 @@
-import { UnderConstruction } from '@/components/under-construction';
-import { useQuery } from '@tanstack/react-query';
-import { clientKeys } from './queries';
-import api from '@/lib/api';
-import type { FetchClientsListFilter } from '@/lib/api/clients';
-import { useState } from 'react';
+import { ClientList } from './client-list';
+import { ClientsProvider } from './clients-provider';
+import { ClientsFilter } from './clients-filter';
 
 export default function ClientsPage() {
-  const [filter] = useState<FetchClientsListFilter>({
-    status: 'active',
-    page: 1,
-    size: 10,
-  });
-
-  const { data, isLoading } = useQuery({
-    queryKey: clientKeys.list(filter),
-    queryFn: () => api.clients.fetchList(filter),
-  });
-
-  console.log(data);
-  console.log(isLoading);
-
-  return <UnderConstruction />;
+  return (
+    <ClientsProvider>
+      <div className="flex size-full flex-col gap-6 p-6">
+        <ClientsFilter />
+        <ClientList />
+      </div>
+    </ClientsProvider>
+  );
 }
