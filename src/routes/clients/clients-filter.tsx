@@ -6,6 +6,11 @@ import { LayoutGrid, Table2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
 import { SearchInput } from '@/components/ui/search-input';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export function ClientsFilter() {
   const store = useClientsContext();
@@ -65,22 +70,36 @@ function ViewModeToggle() {
 
   return (
     <div className="flex items-center space-x-1">
-      <Button
-        variant={viewMode === 'cards' ? 'default' : 'outline'}
-        size="sm"
-        onClick={() => store.trigger.setViewMode({ value: 'cards' })}
-        className="cursor-pointer"
-      >
-        <LayoutGrid className="h-4 w-4" />
-      </Button>
-      <Button
-        variant={viewMode === 'table' ? 'default' : 'outline'}
-        size="sm"
-        onClick={() => store.trigger.setViewMode({ value: 'table' })}
-        className="cursor-pointer"
-      >
-        <Table2 className="h-4 w-4" />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant={viewMode === 'cards' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => store.trigger.setViewMode({ value: 'cards' })}
+            className="cursor-pointer"
+          >
+            <LayoutGrid className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>View as cards</p>
+        </TooltipContent>
+      </Tooltip>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant={viewMode === 'table' ? 'default' : 'outline'}
+            size="sm"
+            onClick={() => store.trigger.setViewMode({ value: 'table' })}
+            className="cursor-pointer"
+          >
+            <Table2 className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>View as table</p>
+        </TooltipContent>
+      </Tooltip>
     </div>
   );
 }
