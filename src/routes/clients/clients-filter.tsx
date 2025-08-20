@@ -3,9 +3,9 @@ import { useClientsContext } from "./clients-provider";
 import { useSelector } from "@xstate/store/react";
 import { Button } from '@/components/ui/button';
 import { LayoutGrid, Table2 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@uidotdev/usehooks';
+import { SearchInput } from '@/components/ui/search-input';
 
 export function ClientsFilter() {
   const store = useClientsContext();
@@ -46,7 +46,8 @@ export function ClientsFilter() {
           </TabsList>
         </Tabs>
         <div className="flex items-center space-x-2">
-          <Input
+          <SearchInput
+            autoFocus
             placeholder="Search by name"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
