@@ -25,18 +25,6 @@ export function NavGeneral() {
             )}
           </NavLink>
         </SidebarMenuItem>
-        <SidebarMenuItem key="employees">
-          <NavLink to="/employees">
-            {({ isActive }) => (
-              <SidebarMenuButton isActive={isActive} asChild>
-                <span>
-                  <Users />
-                  Employees
-                </span>
-              </SidebarMenuButton>
-            )}
-          </NavLink>
-        </SidebarMenuItem>
         <SidebarMenuItem key="clients">
           <NavLink to="/clients">
             {({ isActive }) => (
@@ -44,6 +32,18 @@ export function NavGeneral() {
                 <span>
                   <PersonStanding />
                   Clients
+                </span>
+              </SidebarMenuButton>
+            )}
+          </NavLink>
+        </SidebarMenuItem>
+        <SidebarMenuItem key="employees">
+          <NavLink to="/employees">
+            {({ isActive }) => (
+              <SidebarMenuButton isActive={isActive} asChild>
+                <span>
+                  <Users />
+                  Employees
                 </span>
               </SidebarMenuButton>
             )}
