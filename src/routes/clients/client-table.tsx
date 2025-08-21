@@ -45,13 +45,11 @@ const getStatusLabel = (status: Client['status']) => {
 const getGenderLabel = (gender: Client['gender']) => {
   switch (gender) {
     case 'male':
-      return 'Masculino';
+      return 'Male';
     case 'female':
-      return 'Femenino';
-    case 'other':
-      return 'Otro';
+      return 'Female';
     default:
-      return gender;
+      return 'Other';
   }
 };
 

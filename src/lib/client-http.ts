@@ -3,7 +3,8 @@ import QueryStringAddon from 'wretch/addons/queryString';
 import { TokenStorage } from './token-storage';
 
 // Base URL for your API - adjust according to your environment
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+// Use '/api' for MSW in development/production, or custom URL from env
+const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Routes that don't need authentication
 const PUBLIC_ROUTES = [

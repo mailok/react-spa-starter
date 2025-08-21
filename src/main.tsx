@@ -6,10 +6,22 @@ import { Providers } from './components/providers';
 
 const root = document.getElementById('root')!;
 
-createRoot(root).render(
-  <StrictMode>
-    <Providers>
-      <RouterProvider router={router} />
-    </Providers>
-  </StrictMode>
-);
+async function enableMocking() {
+  // Always enable MSW for this starter template
+  // Remove this entire function when you have a real backend
+  const { worker } = await import('./server');
+
+  return worker.start({
+    onUnhandledRequest: 'bypass',
+  });
+}
+
+enableMocking().then(() => {
+  createRoot(root).render(
+    <StrictMode>
+      <Providers>
+        <RouterProvider router={router} />
+      </Providers>
+    </StrictMode>
+  );
+});
