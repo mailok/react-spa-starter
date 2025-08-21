@@ -1,4 +1,4 @@
-import type { Client } from '@/lib/api/clients';
+import type { Client } from './queries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -9,8 +9,6 @@ interface ClientCardProps {
   client: Client;
   onClick?: (client: Client) => void;
 }
-
-
 
 const getStatusLabel = (status: Client['status']) => {
   switch (status) {

@@ -28,6 +28,10 @@ export type ClientQuery = {
   size?: number;
 };
 
+export type Client = Awaited<
+  ReturnType<typeof fetchClients>
+>['clients'][number];
+
 async function fetchClients(query: ClientQuery) {
   await sleep();
 
