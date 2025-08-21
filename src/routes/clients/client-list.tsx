@@ -4,63 +4,9 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { clientKeys } from './queries';
-import api from '@/lib/api';
+import { clientQuieries } from './queries';
 import { useClientsContext } from './clients-provider';
 import { useSelector } from '@xstate/store/react';
-
-function ClientCardSkeleton() {
-  return (
-    <Card className="card-elevated">
-      <CardContent className="p-6">
-        <div className="flex items-start space-x-4">
-          <Skeleton className="h-16 w-16 rounded-full" />
-          <div className="flex-1 space-y-3">
-            <div className="flex items-start justify-between">
-              <div className="space-y-2">
-                <Skeleton className="h-5 w-32" />
-                <Skeleton className="h-4 w-16" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Skeleton className="h-4 w-48" />
-              <Skeleton className="h-4 w-36" />
-            </div>
-            <div className="border-border border-t pt-3">
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-40" />
-                <Skeleton className="h-4 w-24" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function ClientTableSkeleton() {
-  return (
-    <div className="bg-card rounded-lg border shadow">
-      <div className="space-y-4 p-4">
-        {Array.from({ length: 6 }).map((_, i) => (
-          <div key={i} className="flex items-center space-x-4">
-            <Skeleton className="h-8 w-8 rounded-full" />
-            <div className="grid flex-1 grid-cols-7 gap-4">
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-              <Skeleton className="h-4" />
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
 
 export function ClientList() {
   const navigate = useNavigate();
@@ -70,14 +16,11 @@ export function ClientList() {
   const page = useSelector(store, (state) => state.context.page);
   const size = useSelector(store, (state) => state.context.size);
   const search = useSelector(store, (state) => state.context.search);
-  const filter = { status, page, size, search };
+  const query = { status, page, size, search };
 
-  const { data, isLoading } = useQuery({
-    queryKey: clientKeys.list(filter),
-    queryFn: () => api.clients.fetchList(filter),
-  });
+  const { data, isLoading } = useQuery(clientQuieries.clients(query));
 
-  const clients = data?.data ?? [];
+  const clients = data?.clients ?? [];
 
   if (isLoading) {
     return viewMode === 'cards' ? (
@@ -136,5 +79,58 @@ export function ClientList() {
       clients={clients}
       onClientClick={(client) => navigate(`/clients/${client.id}`)}
     />
+  );
+}
+
+function ClientCardSkeleton() {
+  return (
+    <Card className="card-elevated">
+      <CardContent className="p-6">
+        <div className="flex items-start space-x-4">
+          <Skeleton className="h-16 w-16 rounded-full" />
+          <div className="flex-1 space-y-3">
+            <div className="flex items-start justify-between">
+              <div className="space-y-2">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-4 w-16" />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-48" />
+              <Skeleton className="h-4 w-36" />
+            </div>
+            <div className="border-border border-t pt-3">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-40" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
+function ClientTableSkeleton() {
+  return (
+    <div className="bg-card rounded-lg border shadow">
+      <div className="space-y-4 p-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="flex items-center space-x-4">
+            <Skeleton className="h-8 w-8 rounded-full" />
+            <div className="grid flex-1 grid-cols-7 gap-4">
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+              <Skeleton className="h-4" />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -1,12 +1,8 @@
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, UserCheck, UserX, Clock } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
-import api from '@/lib/api';
 import { useQuery } from '@tanstack/react-query';
-import { clientKeys } from './queries';
-
-
-
+import { clientQuieries } from './queries';
 
 const summaryItems = [
   {
@@ -40,11 +36,7 @@ const summaryItems = [
 ];
 
 export function ClientSummary() {
-
-  const { data: summary, isLoading } = useQuery({
-    queryKey: clientKeys.summary(),
-    queryFn: () => api.clients.fetchSummary(),
-  });
+  const { data: summary, isLoading } = useQuery(clientQuieries.insights());
 
   if (isLoading) {
     return (
