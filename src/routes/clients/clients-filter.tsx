@@ -23,7 +23,7 @@ export function ClientsFilter() {
   }, [debouncedSearchTerm, store]);
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="@container flex items-center justify-between">
       <div className="flex items-center gap-4">
         <Tabs defaultValue={status}>
           <TabsList>
@@ -50,7 +50,7 @@ export function ClientsFilter() {
             </TabsTrigger>
           </TabsList>
         </Tabs>
-        <div className="flex items-center space-x-2">
+        <div className="hidden items-center space-x-2 @lg:flex">
           <SearchInput
             autoFocus
             placeholder="Search by name"
