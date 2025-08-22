@@ -19,6 +19,16 @@ import { SignupPage } from './auth/signup/signup.page';
 import { LoginPage } from './auth/login/login.page';
 import { TasksBreadcrumb } from './tasks/breadcrum';
 import { TasksPage } from './tasks/tasks.page';
+import { ClientDetailLayout } from './clients/[clientId]/layout';
+import { ClientDetailBreadcrumb } from './clients/[clientId]/breadcrum';
+import { PersonalInformationPage } from './clients/[clientId]/personal-information/personal-information.page';
+import { PersonalInformationBreadcrumb } from './clients/[clientId]/personal-information/breadcrum';
+import { MedicalInformationPage } from './clients/[clientId]/medical-information/medical-information.page';
+import { MedicalInformationBreadcrumb } from './clients/[clientId]/medical-information/breadcrum';
+import { BenefitsPage } from './clients/[clientId]/benefits/benefits.page';
+import { BenefitsBreadcrumb } from './clients/[clientId]/benefits/breadcrum';
+import { ClientRouteNotFound } from './clients/[clientId]/route-not-found';
+import { ClientsLayout } from './clients/layout';
 
 export const router = createBrowserRouter([
   {
@@ -41,10 +51,54 @@ export const router = createBrowserRouter([
       },
       {
         path: 'clients',
-        element: <ClientsPage />,
+        element: <ClientsLayout />,
         handle: {
           crumb: <ClientsBreadcrumb />,
         },
+        children: [
+          {
+            index: true,
+            element: <ClientsPage />,
+          },
+          {
+            path: ':clientId',
+            element: <ClientDetailLayout />,
+            handle: {
+              crumb: <ClientDetailBreadcrumb />,
+            },
+            children: [
+              {
+                index: true,
+                element: <Navigate to="personal-information" replace />,
+              },
+              {
+                path: 'personal-information',
+                element: <PersonalInformationPage />,
+                handle: {
+                  crumb: <PersonalInformationBreadcrumb />,
+                },
+              },
+              {
+                path: 'medical-information',
+                element: <MedicalInformationPage />,
+                handle: {
+                  crumb: <MedicalInformationBreadcrumb />,
+                },
+              },
+              {
+                path: 'benefits',
+                element: <BenefitsPage />,
+                handle: {
+                  crumb: <BenefitsBreadcrumb />,
+                },
+              },
+              {
+                path: '*',
+                element: <ClientRouteNotFound />,
+              },
+            ],
+          },
+        ],
       },
       {
         path: 'tasks',

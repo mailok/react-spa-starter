@@ -11,6 +11,22 @@ export const clientQuieries = {
     queryKey: clientKeys.list(query),
     queryFn: () => fetchClients(query),
   }),
+  client: (id: string) => ({
+    queryKey: [...clientKeys.all, 'detail', id] as const,
+    queryFn: () => fetchClient(id),
+  }),
+  personalInformation: (id: string) => ({
+    queryKey: [...clientKeys.all, 'personal-information', id] as const,
+    queryFn: () => fetchClientPersonalInformation(id),
+  }),
+  medicalInformation: (id: string) => ({
+    queryKey: [...clientKeys.all, 'medical-information', id] as const,
+    queryFn: () => fetchClientMedicalInformation(id),
+  }),
+  benefits: (id: string) => ({
+    queryKey: [...clientKeys.all, 'benefits', id] as const,
+    queryFn: () => fetchClientBenefits(id),
+  }),
   insights: () => ({
     queryKey: clientKeys.insights(),
     queryFn: () => fetchInsights(),
@@ -56,11 +72,80 @@ export type ClientInsights = {
   total: number;
 };
 
+export type ClientPersonalInformation = {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  birthDate: string;
+  age: number;
+  gender: 'male' | 'female';
+  status: 'active' | 'inactive' | 'pending';
+  photo: string;
+  createdAt: string;
+  updatedAt: string;
+  // Additional personal info fields
+  address?: string;
+  emergencyContact?: string;
+  nationality?: string;
+};
+
+export type ClientMedicalInformation = {
+  id: string;
+  name: string;
+  status: 'active' | 'inactive' | 'pending';
+  age: number;
+  gender: 'male' | 'female';
+  // Medical specific fields
+  bloodType?: string;
+  allergies?: string[];
+  medications?: string[];
+  medicalHistory?: string[];
+  lastCheckup?: string;
+  doctorNotes?: string;
+};
+
+export type ClientBenefits = {
+  id: string;
+  name: string;
+  email: string;
+  status: 'active' | 'inactive' | 'pending';
+  createdAt: string;
+  // Benefits specific fields
+  planType?: string;
+  coverageLevel?: string;
+  deductible?: number;
+  copay?: number;
+  benefitsUsed?: number;
+  benefitsRemaining?: number;
+  renewalDate?: string;
+};
+
 // ---------------------------------
 //                API FUNCTIONS
 // ---------------------------------
 async function fetchClients(query: ClientQuery): Promise<ClientsResponse> {
   return httpClient.url('/clients').query(query).get().json();
+}
+
+export async function fetchClient(id: string): Promise<Client> {
+  return httpClient.url(`/clients/${id}`).get().json();
+}
+
+export async function fetchClientPersonalInformation(
+  id: string
+): Promise<ClientPersonalInformation> {
+  return httpClient.url(`/clients/${id}/personal-information`).get().json();
+}
+
+export async function fetchClientMedicalInformation(
+  id: string
+): Promise<ClientMedicalInformation> {
+  return httpClient.url(`/clients/${id}/medical-information`).get().json();
+}
+
+export async function fetchClientBenefits(id: string): Promise<ClientBenefits> {
+  return httpClient.url(`/clients/${id}/benefits`).get().json();
 }
 
 async function fetchInsights(): Promise<ClientInsights> {
