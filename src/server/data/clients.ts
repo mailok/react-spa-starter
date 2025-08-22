@@ -29,8 +29,7 @@ export const clientsData: Client[] = [
   },
   {
     id: '2',
-    photo:
-      'https://images.unsplash.com/photo-1494790108755-2616c96c4e8f?w=150&h=150&fit=crop&crop=face',
+    photo: '',
     name: 'María González López',
     email: 'maria.gonzalez@email.com',
     phone: '+1 (555) 234-5678',
@@ -169,8 +168,7 @@ export const clientsData: Client[] = [
   },
   {
     id: '12',
-    photo:
-      'https://images.unsplash.com/photo-1519340333755-c13e1b8b4a43?w=150&h=150&fit=crop&crop=face',
+    photo: '',
     name: 'Andrés Pérez',
     email: 'andres.perez@email.com',
     phone: '+1 (555) 234-7890',
