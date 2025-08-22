@@ -11,8 +11,41 @@ import {
 } from '@/components/ui/tooltip';
 import { useClientSearch } from '../use-client-search';
 
-export function ClientsFilter() {
+
+export function StatusFilter() {
   const [{ status }, setClientSearch] = useClientSearch();
+
+  return (
+    <Tabs defaultValue={status}>
+      <TabsList>
+        <TabsTrigger
+          className="cursor-pointer"
+          value="active"
+          onClick={() => setClientSearch({ status: 'active' })}
+        >
+          Active
+        </TabsTrigger>
+        <TabsTrigger
+          className="cursor-pointer"
+          value="pending"
+          onClick={() => setClientSearch({ status: 'pending' })}
+        >
+          Pending
+        </TabsTrigger>
+        <TabsTrigger
+          className="cursor-pointer"
+          value="inactive"
+          onClick={() => setClientSearch({ status: 'inactive' })}
+        >
+          Inactive
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
+  );
+}
+
+export function SearchFilter() {
+  const [, setClientSearch] = useClientSearch();
   const [search, setLocalSearch] = useState('');
   const debouncedSearchTerm = useDebounce(search, 500);
 
@@ -21,48 +54,18 @@ export function ClientsFilter() {
   }, [debouncedSearchTerm, setClientSearch]);
 
   return (
-    <div className="@container flex items-center justify-between">
-      <div className="flex items-center gap-4">
-        <Tabs defaultValue={status}>
-          <TabsList>
-            <TabsTrigger
-              className="cursor-pointer"
-              value="active"
-              onClick={() => setClientSearch({ status: 'active' })}
-            >
-              Active
-            </TabsTrigger>
-            <TabsTrigger
-              className="cursor-pointer"
-              value="pending"
-              onClick={() => setClientSearch({ status: 'pending' })}
-            >
-              Pending
-            </TabsTrigger>
-            <TabsTrigger
-              className="cursor-pointer"
-              value="inactive"
-              onClick={() => setClientSearch({ status: 'inactive' })}
-            >
-              Inactive
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        <div className="hidden items-center space-x-2 @lg:flex">
-          <SearchInput
-            autoFocus
-            placeholder="Search by name"
-            value={search}
-            onChange={(e) => setLocalSearch(e.target.value)}
-          />
-        </div>
-      </div>
-      <ViewModeToggle />
+    <div className="hidden items-center space-x-2 @lg:flex">
+      <SearchInput
+        autoFocus
+        placeholder="Search by name"
+        value={search}
+        onChange={(e) => setLocalSearch(e.target.value)}
+      />
     </div>
   );
 }
 
-function ViewModeToggle() {
+export function ViewModeToggle() {
   const [{ viewMode }, setClientSearch] = useClientSearch();
 
   return (

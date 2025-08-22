@@ -16,19 +16,6 @@ interface ClientTableProps {
   onClientClick?: (client: Client) => void;
 }
 
-const getStatusColor = (status: Client['status']) => {
-  switch (status) {
-    case 'active':
-      return 'bg-success-muted text-status-active border-status-active/20';
-    case 'inactive':
-      return 'bg-destructive-muted text-status-inactive border-status-inactive/20';
-    case 'pending':
-      return 'bg-warning-muted text-status-pending border-status-pending/20';
-    default:
-      return 'bg-muted text-muted-foreground';
-  }
-};
-
 const getStatusLabel = (status: Client['status']) => {
   switch (status) {
     case 'active':
@@ -113,7 +100,7 @@ export function ClientTable({ clients, onClientClick }: ClientTableProps) {
                 {getGenderLabel(client.gender)}
               </TableCell>
               <TableCell>
-                <Badge className={cn('text-xs', getStatusColor(client.status))}>
+                <Badge className="text-xs" data-status={client.status}>
                   {getStatusLabel(client.status)}
                 </Badge>
               </TableCell>
