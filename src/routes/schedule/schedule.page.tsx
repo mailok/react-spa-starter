@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router';
 
-export default function SchedulePage() {
+export function SchedulePage() {
   return (
     <>
       <Outlet />

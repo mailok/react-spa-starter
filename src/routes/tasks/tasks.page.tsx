@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/kanban';
 import { GripVertical } from 'lucide-react';
 
-export default function TasksPage() {
+export function TasksPage() {
   const [columns, setColumns] = React.useState<Record<string, Task[]>>({
     backlog: [
       {

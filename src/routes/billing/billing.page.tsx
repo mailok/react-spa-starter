@@ -1,5 +1,5 @@
 import { UnderConstruction } from '@/components/under-construction';
 
-export default function BillingPage() {
+export function BillingPage() {
   return <UnderConstruction />;
 }

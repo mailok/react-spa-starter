@@ -4,21 +4,21 @@ import { DashboardPage } from './dashboard/dashboard.page';
 import { About } from './about/about.page';
 import { AuthLayout } from './auth/layout';
 import { DashboardBreadcrumb } from './dashboard/breadcrum';
-import EmployeesPage from './employees/employees.page';
+import { EmployeesPage } from './employees/employees.page';
 import { EmployeesBreadcrumb } from './employees/breadcrum';
 import { ClientsBreadcrumb } from './clients/breadcrum';
-import ClientsPage from './clients/clients.page';
-import BillingPage from './billing/billing.page';
+import { ClientsPage } from './clients/clients.page';
+import { BillingPage } from './billing/billing.page';
 import { BillingBreadcrumb } from './billing/breadcrum';
-import SchedulePage from './schedule/schedule.page';
-import CalendarPage from './schedule/calendar/calendar.page';
+import { SchedulePage } from './schedule/schedule.page';
+import { CalendarPage } from './schedule/calendar/calendar.page';
 import { CalendarBreadcrumb } from './schedule/calendar/breadcrum';
 import { ScheduleBreadcrumb } from './schedule/breadcrum';
-import NotFound from './not-found';
+import { NotFound } from './not-found';
 import { SignupPage } from './auth/signup/signup.page';
 import { LoginPage } from './auth/login/login.page';
 import { TasksBreadcrumb } from './tasks/breadcrum';
-import TasksPage from './tasks/tasks.page';
+import { TasksPage } from './tasks/tasks.page';
 
 export const router = createBrowserRouter([
   {
