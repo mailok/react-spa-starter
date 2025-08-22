@@ -4,7 +4,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { clientQuieries } from './queries';
+import { clientQuieries } from '../queries';
 import { useClientsContext } from './clients-provider';
 import { useSelector } from '@xstate/store/react';
 

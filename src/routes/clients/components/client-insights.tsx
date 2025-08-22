@@ -2,7 +2,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Users, UserCheck, UserX, Clock } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
-import { clientQuieries } from './queries';
+import { clientQuieries } from '../queries';
 
 const summaryItems = [
   {
@@ -35,7 +35,7 @@ const summaryItems = [
   },
 ];
 
-export function ClientSummary() {
+export function Insights() {
   const { data: summary, isLoading } = useQuery(clientQuieries.insights());
 
   if (isLoading) {

@@ -1,4 +1,4 @@
-import type { Client } from './queries';
+import type { Client } from '../queries';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';

@@ -1,4 +1,4 @@
-import type { Client } from './queries';
+import type { Client } from '../queries';
 import {
   Table,
   TableBody,
