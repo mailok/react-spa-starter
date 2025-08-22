@@ -19,25 +19,12 @@ export function ClientDetailLayout() {
     error,
   } = useQuery(clientQuieries.client(clientId!));
 
-  const getStatusVariant = (status: string) => {
-    switch (status) {
-      case 'active':
-        return 'default';
-      case 'inactive':
-        return 'secondary';
-      case 'pending':
-        return 'outline';
-      default:
-        return 'default';
-    }
-  };
-
-  const getCurrentTab = () => {
-    const path = location.pathname;
-    if (path.includes('/medical-information')) return 'medical-information';
-    if (path.includes('/benefits')) return 'benefits';
-    return 'personal-information';
-  };
+  const path = location.pathname;
+  const activeTab = path.includes('/medical-information')
+    ? 'medical-information'
+    : path.includes('/benefits')
+      ? 'benefits'
+      : 'personal-information';
 
   // Error state
   if (error) {
@@ -91,16 +78,14 @@ export function ClientDetailLayout() {
             <div className="flex-1">
               <CardTitle className="flex items-center gap-2">
                 {client.name}
-                <Badge variant={getStatusVariant(client.status)}>
-                  {client.status}
-                </Badge>
+                <Badge data-status={client.status}>{client.status}</Badge>
               </CardTitle>
               <p className="text-muted-foreground text-sm">{client.email}</p>
             </div>
           </div>
         </CardHeader>
         <CardContent>
-          <Tabs value={getCurrentTab()} className="w-full">
+          <Tabs value={activeTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="personal-information" asChild>
                 <Link to={`/clients/${clientId}/personal-information`}>

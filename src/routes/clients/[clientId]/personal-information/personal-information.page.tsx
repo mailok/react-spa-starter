@@ -86,17 +86,7 @@ export function PersonalInformationPage() {
                 Status
               </label>
               <div className="mt-1">
-                <Badge
-                  variant={
-                    client.status === 'active'
-                      ? 'default'
-                      : client.status === 'inactive'
-                        ? 'secondary'
-                        : 'outline'
-                  }
-                >
-                  {client.status}
-                </Badge>
+                <Badge data-status={client.status}>{client.status}</Badge>
               </div>
             </div>
           </CardContent>

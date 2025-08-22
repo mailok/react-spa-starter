@@ -4,6 +4,12 @@ export const clientKeys = {
   all: ['clients'] as const,
   list: (query: ClientQuery) => [...clientKeys.all, query] as const,
   insights: () => [...clientKeys.all, 'insights'] as const,
+  client: (id: string) => [...clientKeys.all, 'detail', id] as const,
+  personalInformation: (id: string) =>
+    [...clientKeys.all, 'personal-information', id] as const,
+  medicalInformation: (id: string) =>
+    [...clientKeys.all, 'medical-information', id] as const,
+  benefits: (id: string) => [...clientKeys.all, 'benefits', id] as const,
 };
 
 export const clientQuieries = {
@@ -12,19 +18,19 @@ export const clientQuieries = {
     queryFn: () => fetchClients(query),
   }),
   client: (id: string) => ({
-    queryKey: [...clientKeys.all, 'detail', id] as const,
+    queryKey: clientKeys.client(id),
     queryFn: () => fetchClient(id),
   }),
   personalInformation: (id: string) => ({
-    queryKey: [...clientKeys.all, 'personal-information', id] as const,
+    queryKey: clientKeys.personalInformation(id),
     queryFn: () => fetchClientPersonalInformation(id),
   }),
   medicalInformation: (id: string) => ({
-    queryKey: [...clientKeys.all, 'medical-information', id] as const,
+    queryKey: clientKeys.medicalInformation(id),
     queryFn: () => fetchClientMedicalInformation(id),
   }),
   benefits: (id: string) => ({
-    queryKey: [...clientKeys.all, 'benefits', id] as const,
+    queryKey: clientKeys.benefits(id),
     queryFn: () => fetchClientBenefits(id),
   }),
   insights: () => ({
