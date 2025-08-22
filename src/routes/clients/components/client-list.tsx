@@ -5,17 +5,11 @@ import { Card, CardContent } from '@/components/ui/card';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
 import { clientQuieries } from '../queries';
-import { useClientsContext } from './clients-provider';
-import { useSelector } from '@xstate/store/react';
+import { useClientSearch } from '../use-client-search';
 
 export function ClientList() {
   const navigate = useNavigate();
-  const store = useClientsContext();
-  const viewMode = useSelector(store, (state) => state.context.viewMode);
-  const status = useSelector(store, (state) => state.context.status);
-  const page = useSelector(store, (state) => state.context.page);
-  const size = useSelector(store, (state) => state.context.size);
-  const search = useSelector(store, (state) => state.context.search);
+  const [{ viewMode, status, page, size, search }] = useClientSearch();
   const query = { status, page, size, search };
 
   const { data, isLoading } = useQuery(clientQuieries.clients(query));
