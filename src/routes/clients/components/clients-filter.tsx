@@ -45,9 +45,9 @@ export function StatusFilter() {
 }
 
 export function SearchFilter() {
-  const [, setClientSearch] = useClientSearch();
-  const [search, setLocalSearch] = useState('');
-  const debouncedSearchTerm = useDebounce(search, 500);
+  const [{ search }, setClientSearch] = useClientSearch();
+  const [localSearch, setLocalSearch] = useState(search);
+  const debouncedSearchTerm = useDebounce(localSearch, 500);
 
   useEffect(() => {
     setClientSearch({ search: debouncedSearchTerm });
@@ -58,7 +58,7 @@ export function SearchFilter() {
       <SearchInput
         autoFocus
         placeholder="Search by name"
-        value={search}
+        value={localSearch}
         onChange={(e) => setLocalSearch(e.target.value)}
       />
     </div>
