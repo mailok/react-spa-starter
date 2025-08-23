@@ -1,5 +1,4 @@
 import { useParams, Link } from 'react-router';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, ArrowLeft } from 'lucide-react';
 
@@ -8,18 +7,18 @@ export function ClientNotFound() {
 
   return (
     <div className="flex size-full items-center justify-center p-6">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-destructive/10">
-            <AlertCircle className="h-8 w-8 text-destructive" />
-          </div>
-          <CardTitle className="text-xl">Client Not Found</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4 text-center">
+      <div className="w-full max-w-md text-center">
+        <div className="bg-destructive/10 mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full">
+          <AlertCircle className="text-destructive h-8 w-8" />
+        </div>
+        <h1 className="mb-6 text-xl font-semibold">Client Not Found</h1>
+        <div className="space-y-4">
           <p className="text-muted-foreground">
-            The client with ID <span className="font-mono font-medium">{clientId}</span> could not be found.
+            The client with ID{' '}
+            <span className="font-mono font-medium">{clientId}</span> could not
+            be found.
           </p>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             The client may have been deleted or the ID might be incorrect.
           </p>
           <Button asChild className="w-full">
@@ -28,8 +27,8 @@ export function ClientNotFound() {
               Back to Clients
             </Link>
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   );
 }
