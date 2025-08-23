@@ -2,19 +2,25 @@ import { ClientCard } from './client-card';
 import { ClientTable } from './client-table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { clientQuieries } from '../queries';
+import { clientQuieries, clientKeys, type Client } from '../queries';
 import { useClientSearch } from '../use-client-search';
 
 export function ClientList() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [{ viewMode, status, page, size, search }] = useClientSearch();
   const query = { status, page, size, search };
 
   const { data, isLoading } = useQuery(clientQuieries.clients(query));
 
   const clients = data?.clients ?? [];
+
+  const handleClientClick = (client: Client) => {
+    queryClient.setQueryData(clientKeys.client(client.id), client);
+    navigate(`/clients/${client.id}`);
+  };
 
   if (isLoading) {
     return viewMode === 'cards' ? (
@@ -64,15 +70,12 @@ export function ClientList() {
         <ClientCard
           key={client.id}
           client={client}
-          onClick={() => navigate(`/clients/${client.id}`)}
+          onClick={() => handleClientClick(client)}
         />
       ))}
     </div>
   ) : (
-    <ClientTable
-      clients={clients}
-      onClientClick={(client) => navigate(`/clients/${client.id}`)}
-    />
+    <ClientTable clients={clients} onClientClick={handleClientClick} />
   );
 }
 
