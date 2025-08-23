@@ -41,7 +41,6 @@ export const clientsHandlers = [
       total: filtered.length,
       page,
       size,
-      totalPages: Math.ceil(filtered.length / size),
     });
   }),
   // GET /api/clients/insights - Get client statistics

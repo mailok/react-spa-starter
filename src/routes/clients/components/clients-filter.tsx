@@ -21,21 +21,21 @@ export function StatusFilter() {
         <TabsTrigger
           className="cursor-pointer"
           value="active"
-          onClick={() => setClientSearch({ status: 'active' })}
+          onClick={() => setClientSearch({ status: 'active', page: 1 })}
         >
           Active
         </TabsTrigger>
         <TabsTrigger
           className="cursor-pointer"
           value="pending"
-          onClick={() => setClientSearch({ status: 'pending' })}
+          onClick={() => setClientSearch({ status: 'pending', page: 1 })}
         >
           Pending
         </TabsTrigger>
         <TabsTrigger
           className="cursor-pointer"
           value="inactive"
-          onClick={() => setClientSearch({ status: 'inactive' })}
+          onClick={() => setClientSearch({ status: 'inactive', page: 1 })}
         >
           Inactive
         </TabsTrigger>
@@ -50,7 +50,7 @@ export function SearchFilter() {
   const debouncedSearchTerm = useDebounce(localSearch, 500);
 
   useEffect(() => {
-    setClientSearch({ search: debouncedSearchTerm });
+    setClientSearch({ search: debouncedSearchTerm, page: 1 });
   }, [debouncedSearchTerm, setClientSearch]);
 
   return (

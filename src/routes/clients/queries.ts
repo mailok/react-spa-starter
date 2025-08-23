@@ -68,7 +68,6 @@ export type ClientsResponse = {
   total: number;
   page: number;
   size: number;
-  totalPages: number;
 };
 
 export type ClientInsights = {

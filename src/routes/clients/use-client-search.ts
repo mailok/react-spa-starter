@@ -5,7 +5,7 @@ export function useClientSearch() {
     status: parseAsString.withDefault('active'),
     search: parseAsString.withDefault(''),
     page: parseAsInteger.withDefault(1),
-    size: parseAsInteger.withDefault(10),
+    size: parseAsInteger.withDefault(6),
     viewMode: parseAsString.withDefault('cards'),
   });
 }

@@ -5,6 +5,7 @@ import {
   ViewModeToggle,
 } from './components/clients-filter';
 import { Insights } from './components/client-insights';
+import { ClientsPagination } from './components/client-pagination';
 
 export function ClientsPage() {
   return (
@@ -18,6 +19,7 @@ export function ClientsPage() {
         <ViewModeToggle />
       </div>
       <ClientList />
+      <ClientsPagination />
     </div>
   );
 }

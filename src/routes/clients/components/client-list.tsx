@@ -2,18 +2,17 @@ import { ClientCard } from './client-card';
 import { ClientTable } from './client-table';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Card, CardContent } from '@/components/ui/card';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router';
-import { clientQuieries, clientKeys, type Client } from '../queries';
+import { clientKeys, type Client } from '../queries';
 import { useClientSearch } from '../use-client-search';
+import { useClientsQuery } from '../use-clients-query';
 
 export function ClientList() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [{ viewMode, status, page, size, search }] = useClientSearch();
-  const query = { status, page, size, search };
-
-  const { data, isLoading } = useQuery(clientQuieries.clients(query));
+  const [{ viewMode }] = useClientSearch();
+  const { data, isLoading } = useClientsQuery();
 
   const clients = data?.clients ?? [];
 
