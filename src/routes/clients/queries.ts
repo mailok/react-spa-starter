@@ -15,27 +15,31 @@ export const clientKeys = {
 export const clientQuieries = {
   clients: (query: ClientQuery) => ({
     queryKey: clientKeys.list(query),
-    queryFn: () => fetchClients(query),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      fetchClients(query, signal),
   }),
   client: (id: string) => ({
     queryKey: clientKeys.client(id),
-    queryFn: () => fetchClient(id),
+    queryFn: ({ signal }: { signal: AbortSignal }) => fetchClient(id, signal),
   }),
   personalInformation: (id: string) => ({
     queryKey: clientKeys.personalInformation(id),
-    queryFn: () => fetchClientPersonalInformation(id),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      fetchClientPersonalInformation(id, signal),
   }),
   medicalInformation: (id: string) => ({
     queryKey: clientKeys.medicalInformation(id),
-    queryFn: () => fetchClientMedicalInformation(id),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      fetchClientMedicalInformation(id, signal),
   }),
   benefits: (id: string) => ({
     queryKey: clientKeys.benefits(id),
-    queryFn: () => fetchClientBenefits(id),
+    queryFn: ({ signal }: { signal: AbortSignal }) =>
+      fetchClientBenefits(id, signal),
   }),
   insights: () => ({
     queryKey: clientKeys.insights(),
-    queryFn: () => fetchInsights(),
+    queryFn: ({ signal }: { signal: AbortSignal }) => fetchInsights(signal),
   }),
 };
 
@@ -129,50 +133,87 @@ export type ClientBenefits = {
 // ---------------------------------
 //                API FUNCTIONS
 // ---------------------------------
-async function fetchClients(query: ClientQuery): Promise<ClientsResponse> {
-  return httpClient.url('/clients').query(query).get().json();
+async function fetchClients(
+  query: ClientQuery,
+  signal?: AbortSignal
+): Promise<ClientsResponse> {
+  return httpClient
+    .url('/clients')
+    .query(query)
+    .options({ signal })
+    .get()
+    .json();
 }
 
-export async function fetchClient(id: string): Promise<Client> {
-  return httpClient.url(`/clients/${id}`).get().json();
+export async function fetchClient(
+  id: string,
+  signal?: AbortSignal
+): Promise<Client> {
+  return httpClient.url(`/clients/${id}`).options({ signal }).get().json();
 }
 
 export async function fetchClientPersonalInformation(
-  id: string
+  id: string,
+  signal?: AbortSignal
 ): Promise<ClientPersonalInformation> {
-  return httpClient.url(`/clients/${id}/personal-information`).get().json();
+  return httpClient
+    .url(`/clients/${id}/personal-information`)
+    .options({ signal })
+    .get()
+    .json();
 }
 
 export async function fetchClientMedicalInformation(
-  id: string
+  id: string,
+  signal?: AbortSignal
 ): Promise<ClientMedicalInformation> {
-  return httpClient.url(`/clients/${id}/medical-information`).get().json();
+  return httpClient
+    .url(`/clients/${id}/medical-information`)
+    .options({ signal })
+    .get()
+    .json();
 }
 
-export async function fetchClientBenefits(id: string): Promise<ClientBenefits> {
-  return httpClient.url(`/clients/${id}/benefits`).get().json();
+export async function fetchClientBenefits(
+  id: string,
+  signal?: AbortSignal
+): Promise<ClientBenefits> {
+  return httpClient
+    .url(`/clients/${id}/benefits`)
+    .options({ signal })
+    .get()
+    .json();
 }
 
-async function fetchInsights(): Promise<ClientInsights> {
-  return httpClient.url('/clients/insights').get().json();
+async function fetchInsights(signal?: AbortSignal): Promise<ClientInsights> {
+  return httpClient.url('/clients/insights').options({ signal }).get().json();
 }
 
 // ---------------------------------
 //                MUTATIONS
 // ---------------------------------
 export async function createClient(
-  client: Omit<Client, 'id' | 'createdAt' | 'updatedAt'>
+  client: Omit<Client, 'id' | 'createdAt' | 'updatedAt'>,
+  signal?: AbortSignal
 ): Promise<Client> {
-  return httpClient.url('/clients').post(client).json();
+  return httpClient.url('/clients').options({ signal }).post(client).json();
 }
 
 export async function updateClient(
   id: string,
-  updates: Partial<Client>
+  updates: Partial<Client>,
+  signal?: AbortSignal
 ): Promise<Client> {
-  return httpClient.url(`/clients/${id}`).put(updates).json();
+  return httpClient
+    .url(`/clients/${id}`)
+    .options({ signal })
+    .put(updates)
+    .json();
 }
 
-export async function deleteClient(id: string): Promise<void> {
-  return httpClient.url(`/clients/${id}`).delete().res(); // Use .res() instead of .json() for void responses
+export async function deleteClient(
+  id: string,
+  signal?: AbortSignal
+): Promise<void> {
+  return httpClient.url(`/clients/${id}`).options({ signal }).delete().res(); // Use .res() instead of .json() for void responses
 }
